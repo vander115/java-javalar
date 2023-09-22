@@ -1,4 +1,4 @@
-package principal.planets;
+package plan.planets;
 
 public class C extends Planet {
     public C() {

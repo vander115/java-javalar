@@ -1,4 +1,4 @@
-package principal.planets;
+package plan.planets;
 
 public class RubyOnRails extends Planet {
     public RubyOnRails() {

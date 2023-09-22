@@ -1,4 +1,4 @@
-package principal.planets;
+package plan.planets;
 
 public class Python extends Planet {
     public Python() {
