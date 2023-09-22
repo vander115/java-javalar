@@ -1,6 +1,9 @@
-package principal;
+package principal.planets;
 
-public class Planet {
+import principal.Position;
+import principal.Time;
+
+abstract public class Planet {
 
 	private String name;
 

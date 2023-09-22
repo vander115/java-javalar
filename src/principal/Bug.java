@@ -1,7 +1,7 @@
 package principal;
 
 public class Bug {
-	private Position position;
+	private final Position position;
 	private int onus = 1;
 
 	public Bug(int x, int y) {
