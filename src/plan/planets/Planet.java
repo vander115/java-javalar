@@ -5,78 +5,83 @@ import plan.tools.Time;
 
 abstract public class Planet {
 
-    private String name;
+	protected String name;
 
-    private int index;
-    private int velocity;
+	protected int index;
+	protected int velocity;
+	protected int laps;
 
-    private Time time;
-    private Position position;
+	protected Time time;
+	protected Position position;
 
-    public Planet(String name, int index, int initialVelocity, double instantDuration) {
-        this.name = name;
-        this.index = index;
-        this.velocity = initialVelocity;
+	public Planet(String name, int index, int initialVelocity, double instantDuration) {
+		this.name = name;
+		this.index = index;
+		this.velocity = initialVelocity;
 
-        int initialY = 8;
-        int initialX = 8 + index;
+		int initialX = 8 + index;
+		int initialY = 8;
 
-        this.position = new Position(initialX, initialY);
-        this.time = new Time(instantDuration);
-    }
+		this.position = new Position(initialX, initialY);
+		this.time = new Time(instantDuration);
+	}
 
-    public int getIndex() {
-        return index;
-    }
+	public int getIndex() {
+		return index;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Position getPosition() {
-        return position;
-    }
+	public Position getPosition() {
+		return position;
+	}
 
-    public int getVelocity() {
-        return velocity;
-    }
+	public int getVelocity() {
+		return velocity;
+	}
 
-    public Time getTime() {
-        return time;
-    }
+	public void changeVelocity(int value) {
+		this.velocity = velocity + value;
+	}
 
-    public void showPlanet() {
-        System.out.println("Planeta " + this.name);
-        System.out
-                .println("Tempo atual, Horas: " + this.time.getPassedHours() + ", Dias: " + this.time.getPassedDays());
-        System.out.println("Posição atual: (" + this.position.getX() + "," + this.position.getY() + ")\n");
-    }
+	public Time getTime() {
+		return time;
+	}
 
-    public void moveOnePositionPlanet() {
-        if (this.position.getY() > (7 - index) && this.position.getX() == (8 + index))
+	public void showPlanet() {
+		System.out.println("Planeta " + this.name);
+		System.out
+				.println("Tempo atual, Horas: " + this.time.getPassedHours() + ", Dias: " + this.time.getPassedDays());
+		System.out.println("Posição atual: (" + this.position.getX() + "," + this.position.getY() + ")\n");
+	}
 
-            this.position.decrementY();
+	public void moveOnePositionPlanet() {
+		if (this.position.getY() > (7 - index) && this.position.getX() == (8 + index))
 
-        else if ((this.position.getX() > (7 - index)) && (this.position.getY() == (7 - index)))
+			this.position.decrementY();
 
-            this.position.decrementX();
+		else if ((this.position.getX() > (7 - index)) && (this.position.getY() == (7 - index)))
 
-        else if (this.position.getY() < (9 + index))
+			this.position.decrementX();
 
-            this.position.incrementY();
+		else if (this.position.getY() < (9 + index))
 
-        else if (this.position.getX() < (9 + index))
+			this.position.incrementY();
 
-            this.position.incrementX();
-    }
+		else if (this.position.getX() < (9 + index))
 
-    public void movePlanet(int numberOfInstant) {
-        for (int i = 0; i < velocity * numberOfInstant; i++) {
-            moveOnePositionPlanet();
-        }
+			this.position.incrementX();
+	}
 
-        this.time.incrementHours(numberOfInstant);
+	public void movePlanet(int numberOfInstant) {
+		for (int i = 0; i < velocity * numberOfInstant; i++) {
+			moveOnePositionPlanet();
+		}
 
-    }
+		this.time.incrementHours(numberOfInstant);
+
+	}
 
 }

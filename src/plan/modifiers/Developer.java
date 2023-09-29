@@ -1,7 +1,9 @@
 package plan.modifiers;
 
+import plan.tools.Position;
+
 public class Developer extends Modifier {
-    public Developer(int x, int y) {
-        super(x, y, 1);
+    public Developer(Position position) {
+        super(position, 1);
     }
 }

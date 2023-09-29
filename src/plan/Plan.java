@@ -1,9 +1,11 @@
 package plan;
 
 import plan.modifiers.Bug;
+import plan.modifiers.Developer;
 import plan.planets.*;
 
 import plan.tools.Position;
+import plan.tools.Satellites;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +13,16 @@ import java.util.Scanner;
 
 public class Plan {
 
-    public static Planet[] createPlanets() {
+    public static List<Planet> planets = new ArrayList<>();
+    public static Java java = new Java();
 
-        return new Planet[]{
+    public static List<Position> occupiedPositions = new ArrayList<>();
+    public static List<Bug> bugs = new ArrayList<>();
+    public static List<Developer> developers = new ArrayList<>();
+
+    public static void createPlanets() {
+
+        Planet[] planetsArray = {
 
                 new Python(),
                 new JavaScript(),
@@ -21,22 +30,50 @@ public class Plan {
                 new PHP(),
                 new CCharp(),
                 new CPlusPlus(),
-                new C()
+                new C(),
 
         };
+
+        planets.addAll(List.of(planetsArray));
 
     }
 
     public static void createBugs() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Quantos bugs você quer?");
+        int amount = scanner.nextInt();
 
+        while (bugs.size() < amount && bugs.size() < 259) {
+            Position newPosition = new Position();
+
+            if (Satellites.checkPositionOccupied(newPosition, occupiedPositions)) {
+                // Se a posição não estiver ocupada, adiciona o bug
+                bugs.add(new Bug(newPosition));
+                occupiedPositions.add(newPosition);
+            }
+        }
+        scanner.close();
     }
 
-    public static void main(String[] args) {
-
+    public static void createDevelopers() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Quantos desenvolvedores você quer?");
+        int amount = scanner.nextInt();
 
-        Planet[] planets = createPlanets();
+        while (bugs.size() < amount && bugs.size() < 259) {
+            Position newPosition = new Position();
 
+            if (Satellites.checkPositionOccupied(newPosition, occupiedPositions)) {
+                // Se a posição não estiver ocupada, adiciona o bug
+                bugs.add(new Bug(newPosition));
+                occupiedPositions.add(newPosition);
+            }
+        }
+        scanner.close();
+    }
+
+    public static void executeInstants() {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Quantos instantes de tempo você quer passar?");
         int amount = scanner.nextInt();
 
@@ -46,29 +83,16 @@ public class Plan {
             planet.showPlanet();
         }
 
-        List<Position> positions = new ArrayList<>();
-        List<Bug> bugs = new ArrayList<>();
-
         for (Planet planet : planets) {
-            positions.add(planet.getPosition());
+            occupiedPositions.add(planet.getPosition());
         }
+    }
 
-        System.out.println("Quantos bugs você quer?");
-        amount = scanner.nextInt();
-        int i = 0;
-        while (i < amount) {
-            int randomX = (int) (Math.random() * 16);
-            int randomY = (int) (Math.random() * 17);
+    public static void main(String[] args) {
 
-            for (int j = 0; j < positions.size(); j++) {
-                if (!(positions.get(j).getX() == randomX && positions.get(j).getY() == randomY)) {
-                    bugs.add(new Bug(randomX, randomY));
-                    positions.add(new Position(randomX, randomY));
-                    i++;
-                    break;
-                }
-            }
-        }
+        createPlanets();
+
+        createBugs();
 
         System.out.println("Posições dos planetas");
         for (Planet planet : planets) {
@@ -80,7 +104,6 @@ public class Plan {
             System.out.println(bug.getPosition().getX() + ", " + bug.getPosition().getY());
         }
 
-        scanner.close();
     }
 
 }
