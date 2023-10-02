@@ -24,18 +24,19 @@ public class Plan {
         setStar();
         setPlanets();
 
-        updateEmpytCellValue();
+        updateEmptyCellValue();
     }
 
     public void simulate(int instantes) {
         movePlanets(instantes);
         updateCells();
         showCells();
-        showPlanInformations();
+        showPlanInformation();
         showAreasAndDistances();
+        updateEmptyCellValue();
     }
 
-    private void updateEmpytCellValue() {
+    private void updateEmptyCellValue() {
         this.emptyCells = (17 * 16);
 
         for (Cell[] columnCells : cells) {
@@ -80,8 +81,11 @@ public class Plan {
             for (Cell cell : columnCell) {
                 for (Planet planet : planets) {
 
-                    if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPreviousPosition()))
-                        cell.deleteElement();
+                    if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPreviousPosition())) {
+                        if (cell.isOcuppied() && cell.getElement().verifyElementType() == ElementType.PLANET) {
+                            cell.deleteElement();
+                        }
+                    }
 
                     if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPosition())) {
 
@@ -106,11 +110,13 @@ public class Plan {
                         } else {
                             cell.deleteElement();
                         }
+
+
                     }
                 }
             }
         }
-        updateEmpytCellValue();
+        updateEmptyCellValue();
     }
 
     public void movePlanets(int numberOfInstant) {
@@ -121,27 +127,28 @@ public class Plan {
     }
 
     public void createBugs(int amountOfBugs) {
-        for (int i = 0; i < amountOfBugs && bugs.size() < emptyCells; i++) {
-
+        showCells();
+        updateCells();
+        for (int i = 0; i < amountOfBugs; i++) {
             Position randomPosition = new Position();
 
-            Cell randomCell = cells[randomPosition.getX()][randomPosition.getY()];
-
-            while (randomCell.isOcuppied()) {
+            while (cells[randomPosition.getX()][randomPosition.getY()].getElement() != null) {
                 randomPosition = new Position();
-                randomCell = cells[randomPosition.getX()][randomPosition.getY()];
             }
 
             Bug bug = new Bug(randomPosition);
             bugs.add(bug);
-            randomCell.setElement(bug);
+            cells[randomPosition.getX()][randomPosition.getY()].setElement(bug);
+            updateCells();
         }
+        System.out.println();
+        showCells();
 
-        updateCells();
     }
 
     public void createDevelopers(int amountOfDevelopers) {
-        for (int i = 0; i < amountOfDevelopers && developers.size() < emptyCells; i++) {
+        updateCells();
+        for (int i = 0; i < amountOfDevelopers; i++) {
             Position randomPosition = new Position();
 
             Cell randomCell = cells[randomPosition.getX()][randomPosition.getY()];
@@ -154,8 +161,9 @@ public class Plan {
             Developer developer = new Developer(randomPosition);
             developers.add(developer);
             randomCell.setElement(developer);
+            updateCells();
         }
-        updateCells();
+
     }
 
     public void showCells() {
@@ -196,10 +204,10 @@ public class Plan {
 
     }
 
-    public void showPlanInformations() {
+    public void showPlanInformation() {
         showAmountOfBugs();
         showAmountOfDevelopers();
-        showPlanetsInformations();
+        showPlanetsInformation();
     }
 
     public void showAmountOfBugs() {
@@ -210,7 +218,7 @@ public class Plan {
         System.out.println("Quantidade de desenvolvedores: " + developers.size());
     }
 
-    public void showPlanetsInformations() {
+    public void showPlanetsInformation() {
         System.out.println("\n INFORMAÇÕES DOS PLANETAS \n");
         for (Planet planet : planets) {
             planet.showPlanet();

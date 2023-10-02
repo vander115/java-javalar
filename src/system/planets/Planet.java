@@ -12,7 +12,7 @@ abstract public class Planet extends Element {
 
     protected PlanetIndex index;
     protected int velocity;
-    protected int numberOfTranslatios;
+    protected int numberOfTranslations;
     protected int numberOfCollisions;
 
     public Time time;
@@ -27,7 +27,6 @@ abstract public class Planet extends Element {
         this.velocity = initialVelocity;
 
         int initialX = 8 + index.getIndexValue();
-        System.out.println(index.getIndexValue());
         int initialY = 8;
 
         this.previousPosition = new Position(initialX, initialY);
@@ -70,13 +69,13 @@ abstract public class Planet extends Element {
 
     public void showPlanet() {
 
-        String formatedDays = String.format("%.2f", this.time.getPassedDays());
+        String formattedDays = String.format("%.2f", this.time.getPassedDays());
 
         System.out.println("Planeta " + this.name);
-        System.out.println("Voltas: " + this.numberOfTranslatios + ", Colisões: " + this.numberOfCollisions);
+        System.out.println("Voltas: " + this.numberOfTranslations + ", Colisões: " + this.numberOfCollisions);
         System.out.println("Índice: " + this.index.getIndexValue() + ", Velocidade: " + this.velocity);
         System.out
-                .println("Tempo atual, Horas: " + this.time.getPassedHours() + ", Dias: " + formatedDays);
+                .println("Tempo atual, Horas: " + this.time.getPassedHours() + ", Dias: " + formattedDays);
         System.out.println("Posição atual: (" + this.position.getX() + "," + this.position.getY() + ")\n");
 
         if (this.velocity == 0) {
@@ -103,7 +102,7 @@ abstract public class Planet extends Element {
             this.position.incrementX();
 
         if (Satellites.isPositionsEqual(this.position, this.initialPosition)) {
-            this.numberOfTranslatios++;
+            this.numberOfTranslations++;
         }
     }
 
@@ -118,15 +117,15 @@ abstract public class Planet extends Element {
 
     public void decreaseVelocity() {
         this.velocity--;
-        colide();
+        collide();
     }
 
     public void increaseVelocity() {
         this.velocity++;
-        colide();
+        collide();
     }
 
-    public void colide() {
+    public void collide() {
         this.numberOfCollisions++;
     }
 
