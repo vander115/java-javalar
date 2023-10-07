@@ -3,230 +3,215 @@ package system.plan;
 import java.util.ArrayList;
 
 import system.enums.ElementType;
-import system.modifiers.*;
-import system.planets.*;
+import system.modifiers.Bug;
+import system.modifiers.Developer;
+import system.planets.C;
+import system.planets.CPlusPlus;
+import system.planets.CSharp;
+import system.planets.JavaScript;
+import system.planets.PHP;
+import system.planets.Planet;
+import system.planets.Python;
+import system.planets.RubyOnRails;
 import system.stars.Java;
+import system.tools.AligmentsSatellite;
+import system.tools.Display;
 import system.tools.Satellites;
 
 public class Plan {
-    public Java java = new Java();
+	public Java java = new Java();
 
-    public Cell[][] cells = new Cell[16][17];
+	public Cell[][] cells = new Cell[16][17];
 
-    public ArrayList<Planet> planets = new ArrayList<>();
-    public ArrayList<Bug> bugs = new ArrayList<>();
-    public ArrayList<Developer> developers = new ArrayList<>();
+	public ArrayList<Planet> planets = new ArrayList<>();
+	public ArrayList<Bug> bugs = new ArrayList<>();
+	public ArrayList<Developer> developers = new ArrayList<>();
+	public int numberOfAlignments;
 
-    public int emptyCells;
+	public int emptyCells;
 
-    public Plan() {
-        setCells();
-        setStar();
-        setPlanets();
+	public Plan() {
+		setCells();
+		setStar();
+		setPlanets();
+		updateEmptyCellValue();
+	}
 
-        updateEmptyCellValue();
-    }
+	public void simulate(int instantes) {
+		movePlanets(instantes);
+		checkAlignment();
+		updateCells();
+		showPlanInformation();
+		updateEmptyCellValue();
+	}
 
-    public void simulate(int instantes) {
-        movePlanets(instantes);
-        updateCells();
-        showCells();
-        showPlanInformation();
-        showAreasAndDistances();
-        updateEmptyCellValue();
-    }
+	public void setStar() {
 
-    private void updateEmptyCellValue() {
-        this.emptyCells = (17 * 16);
+		for (Position position : java.getPositions()) {
+			cells[position.getX()][position.getY()].setElement(java);
+		}
+	}
 
-        for (Cell[] columnCells : cells) {
-            for (Cell cell : columnCells) {
-                if (cell.isOcuppied()) {
-                    this.emptyCells--;
-                }
-            }
-        }
-    }
+	public void setPlanets() {
+		planets.add(new Python());
+		planets.add(new JavaScript());
+		planets.add(new RubyOnRails());
+		planets.add(new PHP());
+		planets.add(new CSharp());
+		planets.add(new CPlusPlus());
+		planets.add(new C());
 
-    public void setStar() {
-        for (Position position : java.getPositions()) {
-            cells[position.getX()][position.getY()].setElement(java);
-        }
-    }
+		for (Planet planet : planets) {
+			cells[planet.getPosition().getX()][planet.getPosition().getY()].setElement(planet);
+		}
+	}
 
-    public void setPlanets() {
-        planets.add(new Python());
-        planets.add(new JavaScript());
-        planets.add(new RubyOnRails());
-        planets.add(new PHP());
-        planets.add(new CSharp());
-        planets.add(new CPlusPlus());
-        planets.add(new C());
+	public void setCells() {
+		for (int i = 0; i < 16; i++) {
+			for (int j = 0; j < 17; j++) {
+				cells[i][j] = new Cell(new Position(i, j));
+			}
+		}
+	}
 
-        for (Planet planet : planets) {
-            cells[planet.getPosition().getX()][planet.getPosition().getY()].setElement(planet);
-        }
-    }
+	// public void updateCells() {
+	// for (Cell[] columnCell : cells) {
+	// for (Cell cell : columnCell) {
+	// for (Planet planet : planets) {
 
-    public void setCells() {
-        for (int i = 0; i < 16; i++) {
-            for (int j = 0; j < 17; j++) {
-                cells[i][j] = new Cell(new Position(i, j));
-            }
-        }
-    }
+	// if (Satellites.isPositionsEqual(cell.getPosition(),
+	// planet.getPreviousPosition())) {
+	// if (cell.isOcuppied() && cell.getElementType() == ElementType.PLANET) {
+	// cell.deleteElement();
+	// }
+	// }
 
-    public void updateCells() {
-        for (Cell[] columnCell : cells) {
-            for (Cell cell : columnCell) {
-                for (Planet planet : planets) {
+	// if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPosition())) {
 
-                    if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPreviousPosition())) {
-                        if (cell.isOcuppied() && cell.getElement().verifyElementType() == ElementType.PLANET) {
-                            cell.deleteElement();
-                        }
-                    }
+	// if (cell.isOcuppied()) {
 
-                    if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPosition())) {
+	// ElementType elementType = cell.getElementType();
 
-                        if (cell.isOcuppied()) {
+	// if (elementType == ElementType.DEVELOPER) {
 
-                            ElementType elementType = cell.getElement().verifyElementType();
+	// planet.increaseVelocity();
+	// developers.remove(cell.getElement());
 
-                            if (elementType == ElementType.DEVELOPER) {
+	// } else if (elementType == ElementType.BUG) {
 
-                                planet.increaseVelocity();
-                                developers.remove(cell.getElement());
+	// planet.decreaseVelocity();
+	// bugs.remove(cell.getElement());
+	// }
+	// }
 
-                            } else if (elementType == ElementType.BUG) {
+	// if (planet.getVelocity() > 0) {
+	// cell.setElement(planet);
+	// } else {
+	// cell.deleteElement();
+	// }
 
-                                planet.decreaseVelocity();
-                                bugs.remove(cell.getElement());
-                            }
-                        }
+	// }
+	// }
+	// }
+	// }
+	// updateEmptyCellValue();
+	// }
 
-                        if (planet.getVelocity() > 0) {
-                            cell.setElement(planet);
-                        } else {
-                            cell.deleteElement();
-                        }
+	public void updateCells() {
+		for (Cell[] columnCell : cells)
+			for (Cell cell : columnCell)
+				for (Planet planet : planets) {
 
+					ElementType elementType = cell.getElementType();
 
-                    }
-                }
-            }
-        }
-        updateEmptyCellValue();
-    }
+					if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPreviousPosition())
+							&& cell.isOcuppied() && elementType == ElementType.PLANET)
+						cell.deleteElement();
 
-    public void movePlanets(int numberOfInstant) {
-        for (Planet planet : planets) {
-            planet.movePlanet(numberOfInstant);
-        }
-        updateCells();
-    }
+					if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPosition())) {
+						if (cell.isOcuppied()) {
 
-    public void createBugs(int amountOfBugs) {
-        showCells();
-        updateCells();
-        for (int i = 0; i < amountOfBugs; i++) {
-            Position randomPosition = new Position();
+							if (elementType == ElementType.DEVELOPER) {
+								planet.increaseVelocity();
+								developers.remove(cell.getElement());
+							} else if (elementType == ElementType.BUG) {
+								planet.decreaseVelocity();
+								bugs.remove(cell.getElement());
+							}
+						}
+						cell.setElement(planet);
+						if (planet.getVelocity() <= 0)
+							cell.deleteElement();
+					}
+				}
+		updateEmptyCellValue();
+	}
 
-            while (cells[randomPosition.getX()][randomPosition.getY()].getElement() != null) {
-                randomPosition = new Position();
-            }
+	public void updateEmptyCellValue() {
+		this.emptyCells = (17 * 16);
 
-            Bug bug = new Bug(randomPosition);
-            bugs.add(bug);
-            cells[randomPosition.getX()][randomPosition.getY()].setElement(bug);
-            updateCells();
-        }
-        System.out.println();
-        showCells();
+		for (Cell[] columnCells : cells) {
+			for (Cell cell : columnCells) {
+				if (cell.isOcuppied()) {
+					this.emptyCells--;
+				}
+			}
+		}
+	}
 
-    }
+	public void movePlanets(int numberOfInstant) {
+		for (Planet planet : planets) {
+			planet.movePlanet(numberOfInstant);
+		}
+	}
 
-    public void createDevelopers(int amountOfDevelopers) {
-        updateCells();
-        for (int i = 0; i < amountOfDevelopers; i++) {
-            Position randomPosition = new Position();
+	public void createBugs(int amountOfBugs) {
+		for (int i = 0; i < amountOfBugs; i++) {
+			Position randomPosition = new Position();
 
-            Cell randomCell = cells[randomPosition.getX()][randomPosition.getY()];
+			while (cells[randomPosition.getX()][randomPosition.getY()].getElement() != null) {
+				randomPosition = new Position();
+			}
 
-            while (randomCell.isOcuppied()) {
-                randomPosition = new Position();
-                randomCell = cells[randomPosition.getX()][randomPosition.getY()];
-            }
+			Bug bug = new Bug(randomPosition);
+			bugs.add(bug);
+			cells[randomPosition.getX()][randomPosition.getY()].setElement(bug);
 
-            Developer developer = new Developer(randomPosition);
-            developers.add(developer);
-            randomCell.setElement(developer);
-            updateCells();
-        }
+		}
+		updateEmptyCellValue();
+	}
 
-    }
+	public void createDevelopers(int amountOfDevelopers) {
+		for (int i = 0; i < amountOfDevelopers; i++) {
+			Position randomPosition = new Position();
 
-    public void showCells() {
-        for (int i = 15; i >= 0; i--) {
+			Cell randomCell = cells[randomPosition.getX()][randomPosition.getY()];
 
-            for (int j = 0; j < 17; j++) {
+			while (randomCell.isOcuppied()) {
+				randomPosition = new Position();
+				randomCell = cells[randomPosition.getX()][randomPosition.getY()];
+			}
 
-                if (cells[i][j].getElement() == null) {
+			Developer developer = new Developer(randomPosition);
+			developers.add(developer);
+			randomCell.setElement(developer);
+		}
+		updateEmptyCellValue();
+	}
 
-                    System.out
-                            .print(" * ");
+	public void showPlanInformation() {
+		Display.showCells(cells);
+		Display.showPlanetsInformation(planets);
+		Display.showPlanetsOnPoles(planets);
+		Display.showAreasAndDistances(planets);
+		Display.showAlignments(numberOfAlignments);
+		Display.showAmountOfBugs(bugs);
+		Display.showAmountOfDevelopers(developers);
+	}
 
-                } else if (cells[i][j].getElement().verifyElementType() == ElementType.DEVELOPER) {
-
-                    System.out
-                            .print("\u001B[32m / \u001B[0m");
-
-                } else if (cells[i][j].getElement().verifyElementType() == ElementType.STAR) {
-
-                    System.out
-                            .print("\u001B[31m 0 \u001B[0m");
-
-                } else if (cells[i][j].getElement().verifyElementType() == ElementType.PLANET) {
-
-                    System.out
-                            .print("\u001B[33m x \u001B[0m");
-
-                } else if (cells[i][j].getElement().verifyElementType() == ElementType.BUG) {
-
-                    System.out.print("\u001B[35m o \u001B[0m");
-
-                }
-            }
-
-            System.out.println();
-
-        }
-
-    }
-
-    public void showPlanInformation() {
-        showAmountOfBugs();
-        showAmountOfDevelopers();
-        showPlanetsInformation();
-    }
-
-    public void showAmountOfBugs() {
-        System.out.println("Quantidade de bugs: " + bugs.size());
-    }
-
-    public void showAmountOfDevelopers() {
-        System.out.println("Quantidade de desenvolvedores: " + developers.size());
-    }
-
-    public void showPlanetsInformation() {
-        System.out.println("\n INFORMAÇÕES DOS PLANETAS \n");
-        for (Planet planet : planets) {
-            planet.showPlanet();
-        }
-    }
-
-    public void showAreasAndDistances() {
-        System.out.println("\n ÁREA E DISTÂNCIA ENTRE OS PLANETAS \n");
-        Satellites.calculeAreaAndDistanceBetweenPositions(planets);
-    }
+	private void checkAlignment() {
+		if (AligmentsSatellite.checkAlignments(planets)) {
+			numberOfAlignments++;
+		}
+	}
 }

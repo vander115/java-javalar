@@ -2,6 +2,7 @@ package system.tools;
 
 import system.plan.Position;
 import system.planets.Planet;
+import system.plan.Cell;
 import java.util.ArrayList;
 
 public class Satellites {
@@ -50,4 +51,35 @@ public class Satellites {
 		return Math.abs((position1.getX() - position2.getX()) * (position1.getY() - position2.getY()));
 	}
 
+	public static int checkNorthPole(ArrayList<Planet> planets) {
+		int count = 0;
+
+		for (Planet planet : planets) {
+			if (planet.getPosition().getY() >= 8) {
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+	public static int checkSouthPole(ArrayList<Planet> planets) {
+		int count = 0;
+
+		for (Planet planet : planets) {
+			if (planet.getPosition().getY() <= 7) {
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+	public static void checkPlanetExploded(Planet planet, Cell cell) {
+		if (planet.getVelocity() > 0) {
+			cell.setElement(planet);
+		} else {
+			cell.deleteElement();
+		}
+	}
 }

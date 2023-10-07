@@ -4,6 +4,7 @@ import system.enums.ElementType;
 import system.enums.PlanetIndex;
 import system.plan.Element;
 import system.plan.Position;
+import system.tools.AligmentsSatellite;
 import system.tools.Satellites;
 
 abstract public class Planet extends Element {
@@ -26,7 +27,7 @@ abstract public class Planet extends Element {
         this.index = index;
         this.velocity = initialVelocity;
 
-        int initialX = 8 + index.getIndexValue();
+        int initialX = 8 + index.getValue();
         int initialY = 8;
 
         this.previousPosition = new Position(initialX, initialY);
@@ -52,7 +53,7 @@ abstract public class Planet extends Element {
     }
 
     public void setPreviousPosition() {
-        this.previousPosition = new Position(this.position.getX(), this.position.getY());
+        previousPosition = new Position(position.getX(), position.getY());
     }
 
     public int getVelocity() {
@@ -60,7 +61,7 @@ abstract public class Planet extends Element {
     }
 
     public void changeVelocity(int value) {
-        this.velocity = velocity + value;
+        velocity = velocity + value;
     }
 
     public Time getTime() {
@@ -69,67 +70,79 @@ abstract public class Planet extends Element {
 
     public void showPlanet() {
 
-        String formattedDays = String.format("%.2f", this.time.getPassedDays());
+        String formattedDays = String.format("%.2f", time.getPassedDays());
 
-        System.out.println("Planeta " + this.name);
-        System.out.println("Voltas: " + this.numberOfTranslations + ", Colisões: " + this.numberOfCollisions);
-        System.out.println("Índice: " + this.index.getIndexValue() + ", Velocidade: " + this.velocity);
+        System.out.println("Planeta " + name);
+        System.out.println("Voltas: " + numberOfTranslations);
+        System.out.println("Velocidade: " + velocity);
         System.out
-                .println("Tempo atual, Horas: " + this.time.getPassedHours() + ", Dias: " + formattedDays);
-        System.out.println("Posição atual: (" + this.position.getX() + "," + this.position.getY() + ")\n");
+                .println("Tempo atual, Horas: " + time.getPassedHours() + ", Dias: " + formattedDays);
+        System.out.println("Posição atual: (" + position.getX() + "," + position.getY() + ")\n");
 
-        if (this.velocity == 0) {
-            System.out.println("O planeta " + this.name + " EXPLODIU.\n");
+        if (velocity == 0) {
+            System.out.println("O planeta " + name + " EXPLODIU.\n");
         }
     }
 
-    public void moveOnePositionPlanet() {
-        int index = this.index.getIndexValue();
-        if (this.position.getY() > (7 - index) && this.position.getX() == (8 + index))
+    private void moveOnePositionPlanet() {
+        int index = this.index.getValue();
+        int x = position.getX();
+        int y = position.getY();
 
-            this.position.decrementY();
+        if (y > (7 - index) && x == (8 + index)) {
 
-        else if ((this.position.getX() > (7 - index)) && (this.position.getY() == (7 - index)))
+            position.decrementY();
 
-            this.position.decrementX();
+        } else if ((x > (7 - index)) && (y == (7 - index))) {
 
-        else if (this.position.getY() < (9 + index))
+            position.decrementX();
 
-            this.position.incrementY();
+        } else if (y < (9 + index)) {
 
-        else if (this.position.getX() < (9 + index))
+            position.incrementY();
 
-            this.position.incrementX();
+        } else if (x < (9 + index)) {
 
-        if (Satellites.isPositionsEqual(this.position, this.initialPosition)) {
-            this.numberOfTranslations++;
+            position.incrementX();
         }
+
+        if (Satellites.isPositionsEqual(this.position, this.initialPosition))
+            numberOfTranslations++;
+
     }
 
     public void movePlanet(int numberOfInstant) {
         setPreviousPosition();
+
         for (int i = 0; i < velocity * numberOfInstant; i++) {
             moveOnePositionPlanet();
+            checkTranslation();
         }
-        this.time.incrementHours(numberOfInstant);
 
+        time.incrementHours(numberOfInstant);
     }
 
     public void decreaseVelocity() {
-        this.velocity--;
+        velocity--;
         collide();
     }
 
     public void increaseVelocity() {
-        this.velocity++;
+        velocity++;
         collide();
     }
 
-    public void collide() {
-        this.numberOfCollisions++;
+    private void collide() {
+        numberOfCollisions++;
     }
 
-    public ElementType verifyElementType() {
+    private void checkTranslation() {
+        if (Satellites.isPositionsEqual(position, initialPosition)) {
+            numberOfTranslations++;
+        }
+    }
+
+    public ElementType getElementType() {
         return ElementType.PLANET;
     }
 

@@ -8,7 +8,7 @@ public class Bug extends Modifier {
         super(position, -1);
     }
 
-    public ElementType verifyElementType() {
+    public ElementType getElementType() {
         return ElementType.BUG;
     }
 }

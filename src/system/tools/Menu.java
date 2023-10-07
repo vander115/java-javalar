@@ -26,8 +26,7 @@ public class Menu {
             System.out.println();
 
             if (amountOfInstantes < 0) {
-                System.out.println("A quantidade de instantes deve ser maior que 0!");
-                System.out.println();
+                System.out.println("A quantidade de instantes deve ser maior que 0!\n");
             }
 
         } while (amountOfInstantes < 0);
@@ -36,8 +35,7 @@ public class Menu {
     public void setAmountOfBugs() {
         if (plan.emptyCells == 0) {
 
-            System.out.println("Não há mais células vazias para criar bugs!");
-            System.out.println();
+            System.out.println("Não há mais células vazias para criar bugs!\n");
             return;
 
         } else {
@@ -50,16 +48,14 @@ public class Menu {
                 System.out.println();
 
                 if (amountOfBugs < 0) {
-                    System.out.println("A quantidade de bugs deve ser maior que 0!");
-                    System.out.println();
+                    System.out.println("A quantidade de bugs deve ser maior que 0!\n");
                 }
 
                 if (amountOfBugs > plan.emptyCells) {
-                    System.out.println("A quantidade de bugs deve ser menor que a quantidade de células vazias!");
-                    System.out.println();
+                    System.out.println("A quantidade de bugs deve ser menor que a quantidade de células vazias!\n");
                 }
 
-            } while (amountOfBugs < 0 && amountOfBugs > plan.emptyCells);
+            } while (amountOfBugs < 0 || amountOfBugs > plan.emptyCells);
 
             plan.createBugs(amountOfBugs);
         }
@@ -104,11 +100,12 @@ public class Menu {
                 }
 
                 if (amountOfDevelopers > plan.emptyCells) {
-                    System.out.println("A quantidade de desenvolvedores deve ser menor que a quantidade de células vazias!");
+                    System.out.println(
+                            "A quantidade de desenvolvedores deve ser menor que a quantidade de células vazias!");
                     System.out.println();
                 }
 
-            } while (amountOfDevelopers < 0 && amountOfDevelopers > plan.emptyCells);
+            } while (amountOfDevelopers < 0 || amountOfDevelopers > plan.emptyCells);
 
             plan.createDevelopers(amountOfDevelopers);
         }

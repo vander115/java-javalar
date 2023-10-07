@@ -18,7 +18,7 @@ public abstract class Star extends Element {
     return this.positions;
   }
 
-  public ElementType verifyElementType() {
+  public ElementType getElementType() {
     return ElementType.STAR;
   }
 }

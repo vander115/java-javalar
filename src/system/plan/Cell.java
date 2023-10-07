@@ -1,6 +1,9 @@
 package system.plan;
 
-public class Cell {
+import system.enums.ElementType;
+import system.interfaces.IGetElementType;
+
+public class Cell implements IGetElementType {
 
     public Position position;
 
@@ -29,5 +32,13 @@ public class Cell {
 
     public void deleteElement() {
         this.element = null;
+    }
+
+    public ElementType getElementType() {
+        if (element != null) {
+            return element.getElementType();
+        } else {
+            return ElementType.EMPTY;
+        }
     }
 }
