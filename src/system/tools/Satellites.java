@@ -12,12 +12,7 @@ public class Satellites {
 
     public static boolean isPositionsEqual(Position position01, Position position02) {
 
-        if (position01.getX() == position02.getX() && position01.getY() == position02.getY()) {
-
-            return true;
-        }
-
-        return false;
+        return position01.getX() == position02.getX() && position01.getY() == position02.getY();
     }
 
     public static void calculeAreaAndDistanceBetweenPositions(ArrayList<Planet> planets) {
@@ -105,15 +100,14 @@ public class Satellites {
                     bugs.remove(cell.getElement());
                 }
             }
-            cell.setElement(planet);
-            if (planet.getVelocity() <= 0)
-                cell.deleteElement();
+
+            Satellites.checkPlanetExploded(planet, cell);
         }
     }
 
     public static double calculateTotalArea(ArrayList<Planet> planets) {
 
-        ArrayList<Position> planetsPositions = new ArrayList<Position>();
+        ArrayList<Position> planetsPositions = new ArrayList<>();
 
         for (Planet planet : planets) {
             planetsPositions.add(planet.getPosition());
