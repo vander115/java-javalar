@@ -2,7 +2,9 @@ package system.tools;
 
 import system.plan.Position;
 import system.planets.Planet;
+import system.enums.ElementType;
 import system.plan.Cell;
+import system.modifiers.*;
 import java.util.ArrayList;
 
 public class Satellites {
@@ -81,5 +83,52 @@ public class Satellites {
 		} else {
 			cell.deleteElement();
 		}
+	}
+
+	public static void checkCollisionBetweenElements(Cell cell, Planet planet, ArrayList<Developer> developers,
+			ArrayList<Bug> bugs) {
+		ElementType elementType = cell.getElementType();
+
+		if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPreviousPosition())
+				&& cell.isOcuppied() && elementType == ElementType.PLANET)
+			cell.deleteElement();
+
+		if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPosition())) {
+			if (cell.isOcuppied()) {
+
+				if (elementType == ElementType.DEVELOPER) {
+					planet.collideIntoDev();
+					developers.remove(cell.getElement());
+				} else if (elementType == ElementType.BUG) {
+					planet.collideIntoBug();
+					bugs.remove(cell.getElement());
+				}
+			}
+			cell.setElement(planet);
+			if (planet.getVelocity() <= 0)
+				cell.deleteElement();
+		}
+	}
+
+	public static double calculateTotalArea(ArrayList<Planet> planets) {
+
+		ArrayList<Position> planetsPositions = new ArrayList<Position>();
+
+		for (Planet planet : planets) {
+			planetsPositions.add(planet.getPosition());
+		}
+
+		int size = planetsPositions.size();
+		double sum = 0;
+
+		for (int i = 0; i < size - 1; i++) {
+			sum += planetsPositions.get(i).getX() * planetsPositions.get(i + 1).getY()
+					- planetsPositions.get(i + 1).getX() * planetsPositions.get(i).getY();
+		}
+
+		sum += planetsPositions.get(size - 1).getX() * planetsPositions.get(0).getY()
+				- planetsPositions.get(0).getX() * planetsPositions.get(size - 1).getY();
+
+		return Math.abs(sum) / 2.0;
 	}
 }

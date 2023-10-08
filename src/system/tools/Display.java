@@ -36,20 +36,22 @@ public class Display {
   }
 
   public static void showAmountOfBugs(ArrayList<Bug> bugs) {
-    System.out.println("\nINFORMAÇÕES DOS BUGS \n");
+    System.out.println();
+    System.out.println("INFORMAÇÕES DOS BUGS");
     System.out.println("Quantidade: " + bugs.size());
     System.out.println("Posições: ");
     for (Bug bug : bugs) {
-      System.out.println("(" + bug.getPosition().getX() + ", " + bug.getPosition().getY() + ") ");
+      System.out.print("(" + bug.getPosition().getX() + ", " + bug.getPosition().getY() + ") ");
     }
   }
 
   public static void showAmountOfDevelopers(ArrayList<Developer> developers) {
-    System.out.println("\nINFORMAÇÕES DOS DESENVOLVEDORES \n");
+    System.out.println();
+    System.out.println("INFORMAÇÕES DOS DESENVOLVEDORES");
     System.out.println("Quantidade: " + developers.size());
     System.out.println("Posições: ");
     for (Developer developer : developers) {
-      System.out.println("(" + developer.getPosition().getX() + ", " + developer.getPosition().getY() + ") ");
+      System.out.print("(" + developer.getPosition().getX() + ", " + developer.getPosition().getY() + ") ");
     }
   }
 
@@ -79,4 +81,12 @@ public class Display {
     System.out.println("Quantidade de alinhamentos: " + numberOfAlignments);
   }
 
+  public static void showPlanReport(ArrayList<Planet> planets, int amountOfInstants) {
+    System.out.println("\nRELATÓRIO DO SISTEMA \n");
+    System.out.println("Total de Instantes: " + amountOfInstants + "\n");
+    for (Planet planet : planets) {
+      planet.showPlanetReport();
+    }
+    System.out.println("Área total entre os planetas: " + Satellites.calculateTotalArea(planets) + " unidades de área");
+  }
 }

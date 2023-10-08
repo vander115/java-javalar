@@ -4,26 +4,27 @@ import system.enums.ElementType;
 import system.enums.PlanetIndex;
 import system.plan.Element;
 import system.plan.Position;
-import system.tools.AligmentsSatellite;
 import system.tools.Satellites;
 
 abstract public class Planet extends Element {
 
     protected String name;
-
+    protected String description;
     protected PlanetIndex index;
     protected int velocity;
-    protected int numberOfTranslations;
-    protected int numberOfCollisions;
-
     public Time time;
+
+    protected int numberOfTranslations;
+    protected int numberOfBugsCollisions;
+    protected int numberOfDevsCollisions;
 
     public Position initialPosition;
     public Position position;
     public Position previousPosition;
 
-    public Planet(String name, PlanetIndex index, int initialVelocity, double instantDuration) {
+    public Planet(String name, String description, PlanetIndex index, int initialVelocity, double instantDuration) {
         this.name = name;
+        this.description = description;
         this.index = index;
         this.velocity = initialVelocity;
 
@@ -64,19 +65,11 @@ abstract public class Planet extends Element {
         velocity = velocity + value;
     }
 
-    public Time getTime() {
-        return time;
-    }
-
     public void showPlanet() {
-
-        String formattedDays = String.format("%.2f", time.getPassedDays());
 
         System.out.println("Planeta " + name);
         System.out.println("Voltas: " + numberOfTranslations);
         System.out.println("Velocidade: " + velocity);
-        System.out
-                .println("Tempo atual, Horas: " + time.getPassedHours() + ", Dias: " + formattedDays);
         System.out.println("Posição atual: (" + position.getX() + "," + position.getY() + ")\n");
 
         if (velocity == 0) {
@@ -84,7 +77,16 @@ abstract public class Planet extends Element {
         }
     }
 
+    public void showPlanetReport() {
+        showPlanet();
+
+        System.out.println("Colisões com bugs: " + numberOfBugsCollisions);
+        System.out.println("Colisões com devs: " + numberOfDevsCollisions);
+        System.out.println("Descrição: " + description + "\n");
+    }
+
     private void moveOnePositionPlanet() {
+
         int index = this.index.getValue();
         int x = position.getX();
         int y = position.getY();
@@ -122,18 +124,14 @@ abstract public class Planet extends Element {
         time.incrementHours(numberOfInstant);
     }
 
-    public void decreaseVelocity() {
+    public void collideIntoBug() {
         velocity--;
-        collide();
+        numberOfBugsCollisions++;
     }
 
-    public void increaseVelocity() {
+    public void collideIntoDev() {
         velocity++;
-        collide();
-    }
-
-    private void collide() {
-        numberOfCollisions++;
+        numberOfDevsCollisions++;
     }
 
     private void checkTranslation() {

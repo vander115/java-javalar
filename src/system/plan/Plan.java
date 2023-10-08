@@ -19,15 +19,15 @@ import system.tools.Display;
 import system.tools.Satellites;
 
 public class Plan {
-	public Java java = new Java();
-
 	public Cell[][] cells = new Cell[16][17];
 
+	public Java java = new Java();
 	public ArrayList<Planet> planets = new ArrayList<>();
 	public ArrayList<Bug> bugs = new ArrayList<>();
 	public ArrayList<Developer> developers = new ArrayList<>();
-	public int numberOfAlignments;
 
+	public int amountOfInstants;
+	public int numberOfAlignments;
 	public int emptyCells;
 
 	public Plan() {
@@ -35,6 +35,8 @@ public class Plan {
 		setStar();
 		setPlanets();
 		updateEmptyCellValue();
+
+		amountOfInstants = 0;
 	}
 
 	public void simulate(int instantes) {
@@ -74,76 +76,13 @@ public class Plan {
 		}
 	}
 
-	// public void updateCells() {
-	// for (Cell[] columnCell : cells) {
-	// for (Cell cell : columnCell) {
-	// for (Planet planet : planets) {
-
-	// if (Satellites.isPositionsEqual(cell.getPosition(),
-	// planet.getPreviousPosition())) {
-	// if (cell.isOcuppied() && cell.getElementType() == ElementType.PLANET) {
-	// cell.deleteElement();
-	// }
-	// }
-
-	// if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPosition())) {
-
-	// if (cell.isOcuppied()) {
-
-	// ElementType elementType = cell.getElementType();
-
-	// if (elementType == ElementType.DEVELOPER) {
-
-	// planet.increaseVelocity();
-	// developers.remove(cell.getElement());
-
-	// } else if (elementType == ElementType.BUG) {
-
-	// planet.decreaseVelocity();
-	// bugs.remove(cell.getElement());
-	// }
-	// }
-
-	// if (planet.getVelocity() > 0) {
-	// cell.setElement(planet);
-	// } else {
-	// cell.deleteElement();
-	// }
-
-	// }
-	// }
-	// }
-	// }
-	// updateEmptyCellValue();
-	// }
-
 	public void updateCells() {
+
 		for (Cell[] columnCell : cells)
 			for (Cell cell : columnCell)
-				for (Planet planet : planets) {
+				for (Planet planet : planets)
+					Satellites.checkCollisionBetweenElements(cell, planet, developers, bugs);
 
-					ElementType elementType = cell.getElementType();
-
-					if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPreviousPosition())
-							&& cell.isOcuppied() && elementType == ElementType.PLANET)
-						cell.deleteElement();
-
-					if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPosition())) {
-						if (cell.isOcuppied()) {
-
-							if (elementType == ElementType.DEVELOPER) {
-								planet.increaseVelocity();
-								developers.remove(cell.getElement());
-							} else if (elementType == ElementType.BUG) {
-								planet.decreaseVelocity();
-								bugs.remove(cell.getElement());
-							}
-						}
-						cell.setElement(planet);
-						if (planet.getVelocity() <= 0)
-							cell.deleteElement();
-					}
-				}
 		updateEmptyCellValue();
 	}
 
@@ -160,16 +99,19 @@ public class Plan {
 	}
 
 	public void movePlanets(int numberOfInstant) {
+
 		for (Planet planet : planets) {
 			planet.movePlanet(numberOfInstant);
 		}
+
+		amountOfInstants += numberOfInstant;
 	}
 
 	public void createBugs(int amountOfBugs) {
 		for (int i = 0; i < amountOfBugs; i++) {
 			Position randomPosition = new Position();
 
-			while (cells[randomPosition.getX()][randomPosition.getY()].getElement() != null) {
+			while (cells[randomPosition.getX()][randomPosition.getY()].isOcuppied()) {
 				randomPosition = new Position();
 			}
 
@@ -185,16 +127,13 @@ public class Plan {
 		for (int i = 0; i < amountOfDevelopers; i++) {
 			Position randomPosition = new Position();
 
-			Cell randomCell = cells[randomPosition.getX()][randomPosition.getY()];
-
-			while (randomCell.isOcuppied()) {
+			while (cells[randomPosition.getX()][randomPosition.getY()].isOcuppied()) {
 				randomPosition = new Position();
-				randomCell = cells[randomPosition.getX()][randomPosition.getY()];
 			}
 
 			Developer developer = new Developer(randomPosition);
 			developers.add(developer);
-			randomCell.setElement(developer);
+			cells[randomPosition.getX()][randomPosition.getY()].setElement(developer);
 		}
 		updateEmptyCellValue();
 	}
@@ -207,6 +146,10 @@ public class Plan {
 		Display.showAlignments(numberOfAlignments);
 		Display.showAmountOfBugs(bugs);
 		Display.showAmountOfDevelopers(developers);
+	}
+
+	public void showPlanReport() {
+		Display.showPlanReport(planets, amountOfInstants);
 	}
 
 	private void checkAlignment() {

@@ -128,5 +128,8 @@ public class Menu {
             plan.updateCells();
 
         } while (menuOption != 2);
+
+        plan.showPlanReport();
+        System.out.println("Obrigado por utilizar o sistema JavaLar! Volte sempre!");
     }
 }
