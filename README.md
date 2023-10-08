@@ -36,12 +36,21 @@ Tools used in the development of this project/discipline.
 
 ## 💻 Getting Started
 
-**Clone the project and access the folder**
+**In the terminal, run the following commands**
+
+- Clone the project and access the folder
 
 ```bash
 $ git clone https://github.com/vander115/java-javalar.git && cd java-javalar
 ```
+- ⚠️ Make sure the latest version of Java is installed on your machine
+- After entering the folder, run the Java command:
+```bash
+$ java -jar javalar.jar
+```
+- If everything goes perfectly, you will see something similar to this screen:
+![image](https://github.com/vander115/java-javalar/assets/101757815/549264b4-bcc4-4e98-90af-c1943f604192)
 
-**Open the project with your preferred IDE**
+**Ready! Now just enjoy and test JavaLar’s features!**
 
 Made with :yellow_heart: by Vanderlei Furtuna 🤝 [See my linkedin](https://www.linkedin.com/in/vanderlei-furtuna-12bb39235/)
