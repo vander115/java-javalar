@@ -14,7 +14,7 @@ import system.planets.Python;
 import system.planets.RubyOnRails;
 import system.stars.Java;
 import system.tools.Telescope;
-import system.tools.Display;
+import system.tools.Radar;
 import system.tools.Satellite;
 
 public class Plan {
@@ -143,17 +143,17 @@ public class Plan {
 	}
 
 	public void showPlanInformation() {
-		Display.showCells(cells);
-		Display.showPlanetsInformation(planets);
-		Display.showPlanetsOnPoles(planets);
-		Display.showAreasAndDistances(planets);
-		Display.showAlignments(numberOfAlignments);
-		Display.showAmountOfBugs(bugs);
-		Display.showAmountOfDevelopers(developers);
+		Radar.showCells(cells);
+		Radar.showPlanetsInformation(planets);
+		Radar.showPlanetsOnPoles(planets);
+		Radar.showAreasAndDistances(planets);
+		Radar.showAlignments(numberOfAlignments);
+		Radar.showAmountOfBugs(bugs);
+		Radar.showAmountOfDevelopers(developers);
 	}
 
 	public void showPlanReport() {
-		Display.showPlanReport(planets, amountOfInstants);
+		Radar.showPlanReport(planets, amountOfInstants);
 	}
 
 }

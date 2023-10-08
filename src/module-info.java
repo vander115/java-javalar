@@ -4,5 +4,5 @@
 /**
  * 
  */
-module SystemJavalar {
+module JavaLar {
 }

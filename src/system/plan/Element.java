@@ -5,5 +5,6 @@ import system.interfaces.IGetElementType;
 
 abstract public class Element implements IGetElementType {
 
-    public abstract ElementType getElementType();
+	public abstract ElementType getElementType();
+
 }

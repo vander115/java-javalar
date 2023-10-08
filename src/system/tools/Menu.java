@@ -19,7 +19,6 @@ public class Menu {
         showMenu();
     }
 
-
     public void setInstants() {
         do {
 
@@ -113,7 +112,7 @@ public class Menu {
     }
 
     public void showMenu() {
-        System.out.println("Bem vindos ao sistema JavaLar!");
+        System.out.println("\u001B[1mBem vindos ao sistema JavaLar!\u001B[0m");
 
         do {
 
@@ -130,6 +129,6 @@ public class Menu {
         } while (menuOption != 2);
 
         plan.showPlanReport();
-        System.out.println("Obrigado por utilizar o sistema JavaLar! Volte sempre!");
+        System.out.println("\u001B[1mObrigado por utilizar o sistema JavaLar! Volte sempre!\u001B[0m");
     }
 }

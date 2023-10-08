@@ -119,23 +119,25 @@ abstract public class Planet extends Element {
 
 	public void showPlanet() {
 
-		System.out.println("Planeta " + name);
-		System.out.println("Voltas: " + numberOfTranslations);
-		System.out.println("Velocidade: " + velocity);
-		System.out.println("Posição atual: (" + position.getX() + "," + position.getY() + ")\n");
-		System.out.println("Tempo: " + time.getPassedHours() + " horas, " + time.getPassedDays() + " dias");
+		String formatedDays = String.format("%.2f", time.getPassedDays());
 
+		System.out.println();
+		System.out.println("\u001B[1mPlaneta " + name.toUpperCase() + "\u001B[0m");
+		System.out.println("- Voltas: " + numberOfTranslations);
+		System.out.println("- Velocidade: " + velocity);
+		System.out.println("- Posição atual: (" + position.getX() + "," + position.getY() + ")");
+		System.out.println("- Tempo: " + time.getPassedHours() + " horas, " + formatedDays + " dias");
 		if (velocity == 0) {
-			System.out.println("O planeta " + name + " EXPLODIU.\n");
+			System.out.println("\u001B[1mO planeta " + name + " EXPLODIU.\u001B[0m");
 		}
 	}
 
 	public void showPlanetReport() {
 		showPlanet();
 
-		System.out.println("Colisões com bugs: " + numberOfBugsCollisions);
-		System.out.println("Colisões com devs: " + numberOfDevsCollisions);
-		System.out.println("Descrição: " + description + "\n");
+		System.out.println("- Colisões com bugs: " + numberOfBugsCollisions);
+		System.out.println("- Colisões com devs: " + numberOfDevsCollisions);
+		System.out.println("- Descrição: " + description + "\n");
 	}
 
 	public ElementType getElementType() {
