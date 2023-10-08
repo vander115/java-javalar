@@ -4,12 +4,13 @@ import system.plan.Element;
 import system.plan.Position;
 
 abstract public class Modifier extends Element {
-    protected Position position;
+
     protected int modifierValue;
+    protected Position position;
 
     public Modifier(Position position, int modifierValue) {
-        this.position = position;
         this.modifierValue = modifierValue;
+        this.position = position;
     }
 
     public Position getPosition() {

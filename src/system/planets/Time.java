@@ -9,10 +9,6 @@ public class Time {
         this.passedHours = 0;
     }
 
-    public double getDurationOfYear() {
-        return instantDuration;
-    }
-
     public double getPassedDays() {
         return passedHours / 24;
     }

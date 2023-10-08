@@ -22,16 +22,16 @@ public class Cell implements IGetElementType {
         return this.position;
     }
 
-    public boolean isOcuppied() {
-        return this.element != null;
-    }
-
     public Element getElement() {
         return this.element;
     }
 
     public void deleteElement() {
         this.element = null;
+    }
+
+    public boolean checkIsOcuppied() {
+        return this.element != null;
     }
 
     public ElementType getElementType() {

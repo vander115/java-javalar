@@ -1,22 +1,22 @@
 package system.enums;
 
 public enum PlanetIndex {
-  PYTHON(1),
-  JAVASCRIPT(2),
-  RUBY_ON_RAILS(3),
-  PHP(4),
-  C_SHARP(5),
-  C_PLUS_PLUS(6),
-  C(7);
+    PYTHON(1),
+    JAVASCRIPT(2),
+    RUBY_ON_RAILS(3),
+    PHP(4),
+    C_SHARP(5),
+    C_PLUS_PLUS(6),
+    C(7);
 
-  public int value;
+    private final int VALUE;
 
-  PlanetIndex(int index) {
-    value = index;
-  }
+    PlanetIndex(int index) {
+        VALUE = index;
+    }
 
-  public int getValue() {
-    return value;
-  }
+    public int getValue() {
+        return VALUE;
+    }
 
 }

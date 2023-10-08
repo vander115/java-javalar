@@ -16,7 +16,9 @@ public class Menu {
 
     public Menu() {
         this.plan = new Plan();
+        showMenu();
     }
+
 
     public void setInstants() {
         do {
@@ -36,7 +38,6 @@ public class Menu {
         if (plan.emptyCells == 0) {
 
             System.out.println("Não há mais células vazias para criar bugs!\n");
-            return;
 
         } else {
 
@@ -61,29 +62,11 @@ public class Menu {
         }
     }
 
-    public void showOptions() {
-        do {
-            System.out.println("Escolha uma opção: ");
-            System.out.println("1 - Simular mais uma vez");
-            System.out.println("2 - Sair");
-            System.out.println();
-
-            menuOption = menuScanner.nextInt();
-
-            if (menuOption != 1 && menuOption != 2) {
-                System.out.println("Opção inválida! Tente novamente!");
-                System.out.println();
-            }
-
-        } while (menuOption != 1 && menuOption != 2);
-    }
-
     public void setAmountOfDevelopers() {
         if (plan.emptyCells == 0) {
 
             System.out.println("Não há mais células vazias para criar desenvolvedores!");
             System.out.println();
-            return;
 
         } else {
 
@@ -110,6 +93,23 @@ public class Menu {
             plan.createDevelopers(amountOfDevelopers);
         }
 
+    }
+
+    public void showOptions() {
+        do {
+            System.out.println("Escolha uma opção: ");
+            System.out.println("1 - Simular mais uma vez");
+            System.out.println("2 - Sair");
+            System.out.println();
+
+            menuOption = menuScanner.nextInt();
+
+            if (menuOption != 1 && menuOption != 2) {
+                System.out.println("Opção inválida! Tente novamente!");
+                System.out.println();
+            }
+
+        } while (menuOption != 1 && menuOption != 2);
     }
 
     public void showMenu() {

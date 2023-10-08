@@ -1,15 +1,19 @@
 package system.enums;
 
 public enum ElementType {
-  EMPTY("Vazio"),
-  STAR("Estrela"),
-  PLANET("Planeta"),
-  BUG("Bug"),
-  DEVELOPER("Desenvolvedor");
+    EMPTY("Vazio"),
+    STAR("Estrela"),
+    PLANET("Planeta"),
+    BUG("Bug"),
+    DEVELOPER("Desenvolvedor");
 
-  public String label;
+    private final String LABEL;
 
-  ElementType(String label) {
-    this.label = label;
-  }
+    ElementType(String label) {
+        LABEL = label;
+    }
+
+    public String getLabel() {
+        return LABEL;
+    }
 }

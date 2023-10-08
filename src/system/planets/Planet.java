@@ -45,44 +45,20 @@ abstract public class Planet extends Element {
         return name;
     }
 
-    public Position getPosition() {
-        return position;
-    }
-
     public Position getPreviousPosition() {
         return previousPosition;
-    }
-
-    public void setPreviousPosition() {
-        previousPosition = new Position(position.getX(), position.getY());
     }
 
     public int getVelocity() {
         return velocity;
     }
 
-    public void changeVelocity(int value) {
-        velocity = velocity + value;
+    public Position getPosition() {
+        return position;
     }
 
-    public void showPlanet() {
-
-        System.out.println("Planeta " + name);
-        System.out.println("Voltas: " + numberOfTranslations);
-        System.out.println("Velocidade: " + velocity);
-        System.out.println("Posição atual: (" + position.getX() + "," + position.getY() + ")\n");
-
-        if (velocity == 0) {
-            System.out.println("O planeta " + name + " EXPLODIU.\n");
-        }
-    }
-
-    public void showPlanetReport() {
-        showPlanet();
-
-        System.out.println("Colisões com bugs: " + numberOfBugsCollisions);
-        System.out.println("Colisões com devs: " + numberOfDevsCollisions);
-        System.out.println("Descrição: " + description + "\n");
+    public void setPreviousPosition() {
+        previousPosition = new Position(position.getX(), position.getY());
     }
 
     private void moveOnePositionPlanet() {
@@ -138,6 +114,27 @@ abstract public class Planet extends Element {
         if (Satellites.isPositionsEqual(position, initialPosition)) {
             numberOfTranslations++;
         }
+    }
+
+    public void showPlanet() {
+
+        System.out.println("Planeta " + name);
+        System.out.println("Voltas: " + numberOfTranslations);
+        System.out.println("Velocidade: " + velocity);
+        System.out.println("Posição atual: (" + position.getX() + "," + position.getY() + ")\n");
+        System.out.println("Tempo: " + time.getPassedHours() + " horas, " + time.getPassedDays() + " dias");
+
+        if (velocity == 0) {
+            System.out.println("O planeta " + name + " EXPLODIU.\n");
+        }
+    }
+
+    public void showPlanetReport() {
+        showPlanet();
+
+        System.out.println("Colisões com bugs: " + numberOfBugsCollisions);
+        System.out.println("Colisões com devs: " + numberOfDevsCollisions);
+        System.out.println("Descrição: " + description + "\n");
     }
 
     public ElementType getElementType() {
