@@ -31,7 +31,7 @@ public class Satellites {
 					Position position02 = planet02.getPosition();
 
 					int area = calculateArea(position01, position02);
-					double distance = calculateEuclideanDistance(position01, position02);
+					double distance = calculateEuclideanDistance(position01, position02); 
 
 					String formatedDistance = String.format("%.2f", distance);
 
