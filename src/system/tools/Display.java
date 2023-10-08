@@ -64,12 +64,12 @@ public class Display {
 
   public static void showAreasAndDistances(ArrayList<Planet> planets) {
     System.out.println("\nÁREA E DISTÂNCIA ENTRE OS PLANETAS \n");
-    Satellites.calculeAreaAndDistanceBetweenPositions(planets);
+    Satellite.calculeAreaAndDistanceBetweenPositions(planets);
   }
 
   public static void showPlanetsOnPoles(ArrayList<Planet> planets) {
-    int planetOnNorth = Satellites.checkNorthPole(planets);
-    int planetOnSouth = Satellites.checkSouthPole(planets);
+    int planetOnNorth = Satellite.checkNorthPole(planets);
+    int planetOnSouth = Satellite.checkSouthPole(planets);
 
     System.out.println("\nNORTE / SUL \n");
     System.out.println("Planetas no Norte: " + planetOnNorth);
@@ -87,6 +87,6 @@ public class Display {
     for (Planet planet : planets) {
       planet.showPlanetReport();
     }
-    System.out.println("Área total entre os planetas: " + Satellites.calculateTotalArea(planets) + " unidades de área");
+    System.out.println("Área total entre os planetas: " + Satellite.calculateTotalArea(planets) + " unidades de área");
   }
 }

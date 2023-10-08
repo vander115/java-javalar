@@ -3,7 +3,7 @@ package system.tools;
 import system.planets.Planet;
 import java.util.ArrayList;
 
-public class AligmentsSatellite {
+public class Telescope {
 
   public static boolean checkNorthAlignment(ArrayList<Planet> planets) {
 

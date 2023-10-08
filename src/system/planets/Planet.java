@@ -4,141 +4,142 @@ import system.enums.ElementType;
 import system.enums.PlanetIndex;
 import system.plan.Element;
 import system.plan.Position;
-import system.tools.Satellites;
+import system.tools.Satellite;
 
 abstract public class Planet extends Element {
 
-    protected String name;
-    protected String description;
-    protected PlanetIndex index;
-    protected int velocity;
-    public Time time;
+	protected String name;
+	protected String description;
+	protected PlanetIndex index;
+	protected int velocity;
+	public Time time;
 
-    protected int numberOfTranslations;
-    protected int numberOfBugsCollisions;
-    protected int numberOfDevsCollisions;
+	protected int numberOfTranslations;
+	protected int numberOfBugsCollisions;
+	protected int numberOfDevsCollisions;
 
-    public Position initialPosition;
-    public Position position;
-    public Position previousPosition;
+	public Position initialPosition;
+	public Position position;
+	public Position previousPosition;
 
-    public Planet(String name, String description, PlanetIndex index, int initialVelocity, double instantDuration) {
-        this.name = name;
-        this.description = description;
-        this.index = index;
-        this.velocity = initialVelocity;
+	public Planet(String name, String description, PlanetIndex index, int initialVelocity, double instantDuration) {
+		this.name = name;
+		this.description = description;
+		this.index = index;
+		this.velocity = initialVelocity;
 
-        int initialX = 8 + index.getValue();
-        int initialY = 8;
+		int initialX = 8 + index.getValue();
+		int initialY = 8;
 
-        this.previousPosition = new Position(initialX, initialY);
-        this.position = new Position(initialX, initialY);
-        this.initialPosition = new Position(initialX, initialY);
-        this.time = new Time(instantDuration);
-    }
+		this.previousPosition = new Position(initialX, initialY);
+		this.position = new Position(initialX, initialY);
+		this.initialPosition = new Position(initialX, initialY);
 
-    public PlanetIndex getIndex() {
-        return index;
-    }
+		this.time = new Time(instantDuration);
+	}
 
-    public String getName() {
-        return name;
-    }
+	public PlanetIndex getIndex() {
+		return index;
+	}
 
-    public Position getPreviousPosition() {
-        return previousPosition;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public int getVelocity() {
-        return velocity;
-    }
+	public Position getPreviousPosition() {
+		return previousPosition;
+	}
 
-    public Position getPosition() {
-        return position;
-    }
+	public int getVelocity() {
+		return velocity;
+	}
 
-    public void setPreviousPosition() {
-        previousPosition = new Position(position.getX(), position.getY());
-    }
+	public Position getPosition() {
+		return position;
+	}
 
-    private void moveOnePositionPlanet() {
+	public void setPreviousPosition() {
+		previousPosition = new Position(position.getX(), position.getY());
+	}
 
-        int index = this.index.getValue();
-        int x = position.getX();
-        int y = position.getY();
+	private void moveOnePositionPlanet() {
 
-        if (y > (7 - index) && x == (8 + index)) {
+		int index = this.index.getValue();
+		int x = position.getX();
+		int y = position.getY();
 
-            position.decrementY();
+		if (y > (7 - index) && x == (8 + index)) {
 
-        } else if ((x > (7 - index)) && (y == (7 - index))) {
+			position.decrementY();
 
-            position.decrementX();
+		} else if ((x > (7 - index)) && (y == (7 - index))) {
 
-        } else if (y < (9 + index)) {
+			position.decrementX();
 
-            position.incrementY();
+		} else if (y < (9 + index)) {
 
-        } else if (x < (9 + index)) {
+			position.incrementY();
 
-            position.incrementX();
-        }
+		} else if (x < (9 + index)) {
 
-        if (Satellites.isPositionsEqual(this.position, this.initialPosition))
-            numberOfTranslations++;
+			position.incrementX();
+		}
 
-    }
+		if (Satellite.isPositionsEqual(this.position, this.initialPosition))
+			numberOfTranslations++;
 
-    public void movePlanet(int numberOfInstant) {
-        setPreviousPosition();
+	}
 
-        for (int i = 0; i < velocity * numberOfInstant; i++) {
-            moveOnePositionPlanet();
-            checkTranslation();
-        }
+	public void movePlanet(int numberOfInstant) {
+		setPreviousPosition();
 
-        time.incrementHours(numberOfInstant);
-    }
+		for (int i = 0; i < velocity * numberOfInstant; i++) {
+			moveOnePositionPlanet();
+			checkTranslation();
+		}
 
-    public void collideIntoBug() {
-        velocity--;
-        numberOfBugsCollisions++;
-    }
+		time.incrementHours(numberOfInstant);
+	}
 
-    public void collideIntoDev() {
-        velocity++;
-        numberOfDevsCollisions++;
-    }
+	public void collideIntoBug() {
+		velocity--;
+		numberOfBugsCollisions++;
+	}
 
-    private void checkTranslation() {
-        if (Satellites.isPositionsEqual(position, initialPosition)) {
-            numberOfTranslations++;
-        }
-    }
+	public void collideIntoDev() {
+		velocity++;
+		numberOfDevsCollisions++;
+	}
 
-    public void showPlanet() {
+	private void checkTranslation() {
+		if (Satellite.isPositionsEqual(position, initialPosition)) {
+			numberOfTranslations++;
+		}
+	}
 
-        System.out.println("Planeta " + name);
-        System.out.println("Voltas: " + numberOfTranslations);
-        System.out.println("Velocidade: " + velocity);
-        System.out.println("Posição atual: (" + position.getX() + "," + position.getY() + ")\n");
-        System.out.println("Tempo: " + time.getPassedHours() + " horas, " + time.getPassedDays() + " dias");
+	public void showPlanet() {
 
-        if (velocity == 0) {
-            System.out.println("O planeta " + name + " EXPLODIU.\n");
-        }
-    }
+		System.out.println("Planeta " + name);
+		System.out.println("Voltas: " + numberOfTranslations);
+		System.out.println("Velocidade: " + velocity);
+		System.out.println("Posição atual: (" + position.getX() + "," + position.getY() + ")\n");
+		System.out.println("Tempo: " + time.getPassedHours() + " horas, " + time.getPassedDays() + " dias");
 
-    public void showPlanetReport() {
-        showPlanet();
+		if (velocity == 0) {
+			System.out.println("O planeta " + name + " EXPLODIU.\n");
+		}
+	}
 
-        System.out.println("Colisões com bugs: " + numberOfBugsCollisions);
-        System.out.println("Colisões com devs: " + numberOfDevsCollisions);
-        System.out.println("Descrição: " + description + "\n");
-    }
+	public void showPlanetReport() {
+		showPlanet();
 
-    public ElementType getElementType() {
-        return ElementType.PLANET;
-    }
+		System.out.println("Colisões com bugs: " + numberOfBugsCollisions);
+		System.out.println("Colisões com devs: " + numberOfDevsCollisions);
+		System.out.println("Descrição: " + description + "\n");
+	}
+
+	public ElementType getElementType() {
+		return ElementType.PLANET;
+	}
 
 }

@@ -8,7 +8,7 @@ import system.modifiers.*;
 
 import java.util.ArrayList;
 
-public class Satellites {
+public class Satellite {
 
     public static boolean isPositionsEqual(Position position01, Position position02) {
 
@@ -85,11 +85,11 @@ public class Satellites {
                                                      ArrayList<Bug> bugs) {
         ElementType elementType = cell.getElementType();
 
-        if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPreviousPosition())
+        if (Satellite.isPositionsEqual(cell.getPosition(), planet.getPreviousPosition())
                 && cell.checkIsOcuppied() && elementType == ElementType.PLANET)
             cell.deleteElement();
 
-        if (Satellites.isPositionsEqual(cell.getPosition(), planet.getPosition())) {
+        if (Satellite.isPositionsEqual(cell.getPosition(), planet.getPosition())) {
             if (cell.checkIsOcuppied()) {
 
                 if (elementType == ElementType.DEVELOPER) {
@@ -101,7 +101,7 @@ public class Satellites {
                 }
             }
 
-            Satellites.checkPlanetExploded(planet, cell);
+            Satellite.checkPlanetExploded(planet, cell);
         }
     }
 
