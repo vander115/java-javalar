@@ -57,6 +57,26 @@ abstract public class Planet extends Element {
 	public Position getPosition() {
 		return position;
 	}
+	
+	public Time getTime() {
+		return time;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public int getNumberOfTranslations() {
+		return numberOfTranslations;
+	}
+	
+	public int getNumberOfBugsCollisions() {
+		return numberOfBugsCollisions;
+	}
+	
+	public int getNumberOfDevsCollisions() {
+		return numberOfDevsCollisions;
+	}
 
 	public void setPreviousPosition() {
 		previousPosition = new Position(position.getX(), position.getY());
@@ -117,29 +137,7 @@ abstract public class Planet extends Element {
 		}
 	}
 
-	public void showPlanet() {
-
-		String formatedDays = String.format("%.2f", time.getPassedDays());
-
-		System.out.println();
-		System.out.println("\u001B[1mPlaneta " + name.toUpperCase() + "\u001B[0m");
-		System.out.println("- Voltas: " + numberOfTranslations);
-		System.out.println("- Velocidade: " + velocity);
-		System.out.println("- Posição atual: (" + position.getX() + "," + position.getY() + ")");
-		System.out.println("- Tempo: " + time.getPassedHours() + " horas, " + formatedDays + " dias");
-		if (velocity == 0) {
-			System.out.println("\u001B[1mO planeta " + name + " EXPLODIU.\u001B[0m");
-		}
-	}
-
-	public void showPlanetReport() {
-		showPlanet();
-
-		System.out.println("- Colisões com bugs: " + numberOfBugsCollisions);
-		System.out.println("- Colisões com devs: " + numberOfDevsCollisions);
-		System.out.println("- Descrição: " + description + "\n");
-	}
-
+	
 	public ElementType getElementType() {
 		return ElementType.PLANET;
 	}
