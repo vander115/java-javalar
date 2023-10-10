@@ -45,7 +45,8 @@ $ git clone https://github.com/vander115/java-javalar.git && cd java-javalar
 $ java -jar javalar.jar
 ```
 - If everything goes perfectly, you will see something similar to this screen:
-![image](https://github.com/vander115/java-javalar/assets/101757815/549264b4-bcc4-4e98-90af-c1943f604192)
+![image](https://github.com/vander115/java-javalar/assets/101757815/06e2982e-4191-48e1-bcbb-78176557318d)
+
 
 **Ready! Now just enjoy and test JavaLar’s features!**
 
