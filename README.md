@@ -1,5 +1,5 @@
 <p align="center">
-<img width="100%" alt="JavaLar" src="https://github.com/vander115/java-javalar/assets/101757815/6cf73f49-c165-4060-beb3-5488f6496b66">
+<img width="100%" alt="JavaLar" src=https://github.com/vander115/java-javalar/assets/101757815/3e4d982f-63da-4a1d-b5c7-9112e9b01a9c">
 </p>
 
 <h1 align="center">
