@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import system.enums.ElementType;
 import system.planets.Planet;
 import system.plan.Cell;
+import system.plan.Position;
 import system.modifiers.*;
 
 public class Radar {
@@ -66,11 +67,36 @@ public class Radar {
 		}
 		System.out.println();
 	}
+	
+	public static void calculeAreaAndDistanceBetweenPositions(ArrayList<Planet> planets) {
+
+		for (int i = 0; i < planets.size() - 1; i++) {
+			for (int j = i + 1; j < planets.size(); j++) {
+				Planet planet01 = planets.get(i);
+				Planet planet02 = planets.get(j);
+
+				if (planet01.getVelocity() > 0 && planet02.getVelocity() > 0 && !planet01.equals(planet02)) {
+					Position position01 = planet01.getPosition();
+					Position position02 = planet02.getPosition();
+
+					int area = Satellite.calculateArea(position01, position02);
+					double distance = Satellite.calculateEuclideanDistance(position01, position02);
+
+					String formatedDistance = String.format("%.2f", distance);
+
+					System.out.println(planet01.getName() + " e " + planet02.getName());
+					System.out.println("Área: " + area + " unidades de área");
+					System.out.println("Distância: " + formatedDistance + " unidades de distância");
+					System.out.println();
+				}
+			}
+		}
+	}
 
 	public static void showAreasAndDistances(ArrayList<Planet> planets) {
 		System.out.println();
 		System.out.println("\u001B[1m--ÁREA E DISTÂNCIA ENTRE OS PLANETAS--\u001B[0m");
-		Satellite.calculeAreaAndDistanceBetweenPositions(planets);
+		calculeAreaAndDistanceBetweenPositions(planets);
 		System.out.println();
 	}
 

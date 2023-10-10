@@ -105,8 +105,7 @@ abstract public class Planet extends Element {
 			position.incrementX();
 		}
 
-		if (Satellite.isPositionsEqual(this.position, this.initialPosition))
-			numberOfTranslations++;
+		checkTranslation();
 
 	}
 
