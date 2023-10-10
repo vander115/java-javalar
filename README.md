@@ -14,10 +14,6 @@
   <a href="https://github.com/matheralvs/todo-list/commits/main">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/vander115/java-javalar?color=%23ffb1b2">
   </a>
-
-  <a href="https://github.com/matheralvs/todo-list/issues">
-    <img alt="Repository issues" src="https://img.shields.io/github/issues/vander115/java-javalar?color=%23ffb1b2">
-  </a>
 </p>
 
 ## ✅ About the project
