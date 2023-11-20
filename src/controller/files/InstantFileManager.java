@@ -1,19 +1,18 @@
-package controller;
+package controller.files;
 
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class FileManager {
+public class InstantFileManager {
 
   File file;
 
-  public FileManager() {
+  public InstantFileManager() {
 
   }
 
@@ -39,5 +38,9 @@ public class FileManager {
       System.out.println(e.getMessage());
       return null;
     }
+  }
+
+  public String getFileName() {
+    return file.getName();
   }
 }

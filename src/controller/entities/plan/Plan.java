@@ -1,10 +1,7 @@
 package controller.entities.plan;
 
-import java.util.List;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import controller.FileManager;
 import controller.entities.modifiers.Bug;
 import controller.entities.modifiers.Developer;
 import controller.entities.planets.C;
@@ -16,19 +13,28 @@ import controller.entities.planets.Planet;
 import controller.entities.planets.Python;
 import controller.entities.planets.RubyOnRails;
 import controller.entities.stars.Java;
+import controller.tools.Report;
 import controller.tools.Satellite;
+import controller.tools.Telescope;
+import model.entities.PlanDAO;
 
 public class Plan {
-	public Cell[][] cells = new Cell[15][15];
 
-	public Java java = new Java();
-	public ArrayList<Planet> planets = new ArrayList<>();
-	public ArrayList<Bug> bugs = new ArrayList<>();
-	public ArrayList<Developer> developers = new ArrayList<>();
+	private PlanDAO planDAO = new PlanDAO();
+	private Telescope telescope = new Telescope();
+	private Report report = new Report();
 
-	public Instant instant = new Instant();
+	private Cell[][] cells = new Cell[15][15];
 
-	public int emptyCells;
+	private Java java = new Java();
+
+	private ArrayList<Planet> planets = new ArrayList<>();
+	private ArrayList<Bug> bugs = new ArrayList<>();
+	private ArrayList<Developer> developers = new ArrayList<>();
+
+	private Instant instant = new Instant();
+
+	private ArrayList<Position> emptyPositions = new ArrayList<Position>();
 
 	public Plan() {
 		setCells();
@@ -38,29 +44,63 @@ public class Plan {
 	}
 
 	public void simulate() {
-		convertInstants();
-		createBugs(amountOfBugs);
-		createDevelopers(amountOfDevelopers);
+		instant.convertInstants();
+		createBugs(instant.getAmountOfBugsToCreate());
+		createDevelopers(instant.getAmountOfDevelopersToCreate());
 		movePlanets();
 		updateCells();
 		updateEmptyCellValue();
 	}
 
-	public void setCells() {
+	public Instant getInstant() {
+		return instant;
+	}
+
+	public Report getReport() {
+		return report;
+	}
+
+	public Cell[][] getCells() {
+		return cells;
+	}
+
+	public ArrayList<Bug> getBugs() {
+		return bugs;
+	}
+
+	public ArrayList<Developer> getDevelopers() {
+		return developers;
+	}
+
+	public Telescope getTelescope() {
+		return telescope;
+	}
+
+	public boolean isValuesEmpty() {
+		return instant.getListOfInstants().isEmpty();
+	}
+
+	public ArrayList<Planet> getPlanets() {
+		return planets;
+	}
+
+	private void setCells() {
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 15; j++) {
-				cells[i][j] = new Cell(new Position(i, j));
+				Position newPosition = new Position(i, j);
+				cells[i][j] = new Cell(newPosition);
+				emptyPositions.add(newPosition);
 			}
 		}
 	}
 
-	public void setStar() {
+	private void setStar() {
 		for (Position position : java.getPositions()) {
 			cells[position.getX()][position.getY()].setElement(java);
 		}
 	}
 
-	public void setPlanets() {
+	private void setPlanets() {
 		planets.add(new Python());
 		planets.add(new JavaScript());
 		planets.add(new RubyOnRails());
@@ -74,50 +114,41 @@ public class Plan {
 		}
 	}
 
-	public void createBugs(int amountOfBugs) {
-		for (int i = 0; i < amountOfBugs; i++) {
-			Position randomPosition = new Position();
-
-			while (cells[randomPosition.getX()][randomPosition.getY()].checkIsOcuppied()) {
-				randomPosition = new Position();
-			}
+	private void createBugs(int amountOfBugs) {
+		for (int i = 0; (i < amountOfBugs) && (emptyPositions.size() > 0); i++) {
+			Position randomPosition = getRamdomPositionFromCells();
 
 			Bug bug = new Bug(randomPosition);
 			bugs.add(bug);
 			cells[randomPosition.getX()][randomPosition.getY()].setElement(bug);
 
+			updateEmptyCellValue();
 		}
-		updateEmptyCellValue();
 	}
 
-	public void createDevelopers(int amountOfDevelopers) {
-		for (int i = 0; i < amountOfDevelopers; i++) {
-			Position randomPosition = new Position();
-
-			while (cells[randomPosition.getX()][randomPosition.getY()].checkIsOcuppied()) {
-				randomPosition = new Position();
-			}
+	private void createDevelopers(int amountOfDevelopers) {
+		for (int i = 0; (i < amountOfDevelopers) && (emptyPositions.size() > 0); i++) {
+			Position randomPosition = getRamdomPositionFromCells();
 
 			Developer developer = new Developer(randomPosition);
 			developers.add(developer);
 			cells[randomPosition.getX()][randomPosition.getY()].setElement(developer);
+
+			updateEmptyCellValue();
 		}
-		updateEmptyCellValue();
 	}
 
-	public void movePlanets() {
-
-		for (int i = 0; i < 7; i++) {
+	private void movePlanets() {
+		for (int i = 1; i <= 7; i++) {
 			for (Planet planet : planets) {
 				if (planet.getIndex().getValue() == i) {
-					planet.movePlanet(instant.getAmountOfInstants()[i]);
+					planet.movePlanet(instant.getAmountOfInstants()[i - 1]);
 				}
 			}
 		}
-
 	}
 
-	public void updateCells() {
+	private void updateCells() {
 
 		for (Cell[] columnCell : cells)
 			for (Cell cell : columnCell)
@@ -127,23 +158,30 @@ public class Plan {
 		updateEmptyCellValue();
 	}
 
-	public void updateEmptyCellValue() {
-		this.emptyCells = (17 * 16);
+	public Position getRamdomPositionFromCells() {
+		int randomPositionIndex = (int) (Math.random() * emptyPositions.size());
+
+		return emptyPositions.get(randomPositionIndex);
+	}
+
+	private void updateEmptyCellValue() {
 
 		for (Cell[] columnCells : cells) {
 			for (Cell cell : columnCells) {
 				if (cell.checkIsOcuppied()) {
-					this.emptyCells--;
+					emptyPositions.remove(cell.getPosition());
+				} else {
+					if (!emptyPositions.contains(cell.getPosition())) {
+						emptyPositions.add(cell.getPosition());
+					}
 				}
 			}
 		}
+
 	}
 
-	public Cell[][] getCells() {
-		return cells;
+	public void insertPlan() {
+		planDAO.insertPlan(this);
 	}
 
-	public boolean isValuesEmpty() {
-		return instant.getListOfInstants().isEmpty();
-	}
 }

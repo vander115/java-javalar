@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.FileManager;
+import controller.files.InstantFileManager;
 
 public class Instant {
 
-  private FileManager fileManager = new FileManager();
+  private InstantFileManager fileManager = new InstantFileManager();
 
   private ArrayList<String[]> listOfInstants = new ArrayList<>();
 
@@ -70,6 +70,10 @@ public class Instant {
 
   public ArrayList<String[]> getListOfInstants() {
     return listOfInstants;
+  }
+
+  public String getFileName() {
+    return fileManager.getFileName();
   }
 
 }

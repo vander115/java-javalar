@@ -2,13 +2,13 @@ package model;
 
 import java.sql.*;
 
-public class ModelConnection {
+public class Connector {
 	private String hostName;
 	private String userName;
 	private String password;
 	private String database;
 
-	public ModelConnection() {
+	public Connector() {
 		this.hostName = "da_java.mysql.dbaas.com.br";
 		this.database = "da_java";
 		this.userName = "da_java";

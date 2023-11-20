@@ -1,7 +1,5 @@
 package controller.entities.planets;
 
-import java.awt.Image;
-
 import javax.swing.ImageIcon;
 
 import controller.entities.plan.Element;
@@ -13,6 +11,7 @@ import controller.tools.Satellite;
 abstract public class Planet extends Element {
 
 	protected String name;
+	protected String slug;
 	protected String description;
 	protected PlanetIndex index;
 	protected int velocity;
@@ -26,9 +25,11 @@ abstract public class Planet extends Element {
 	public Position position;
 	public Position previousPosition;
 
-	public Planet(String name, String description, PlanetIndex index, int initialVelocity, double instantDuration,
+	public Planet(String name, String slug, String description, PlanetIndex index, int initialVelocity,
+			double instantDuration,
 			String filename) {
 		this.name = name;
+		this.slug = slug;
 		this.description = description;
 		this.index = index;
 		this.velocity = initialVelocity;
@@ -51,6 +52,10 @@ abstract public class Planet extends Element {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getSlug() {
+		return slug;
 	}
 
 	public Position getPreviousPosition() {
@@ -123,8 +128,9 @@ abstract public class Planet extends Element {
 			moveOnePositionPlanet();
 			checkTranslation();
 		}
-
-		time.incrementHours(numberOfInstant);
+		if (velocity > 0) {
+			time.incrementHours(numberOfInstant);
+		}
 	}
 
 	public void collideIntoBug() {

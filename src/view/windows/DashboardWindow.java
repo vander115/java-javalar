@@ -3,25 +3,22 @@ package view.windows;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
-import controller.FileManager;
+import controller.entities.plan.Instant;
 import controller.entities.plan.Plan;
+import controller.files.InstantFileManager;
 import view.components.Buttons.ActionButton;
 import view.containers.Header;
 import view.containers.ViewPlan;
@@ -36,7 +33,7 @@ public class DashboardWindow extends JFrame {
 
   ViewPlan viewPlan = new ViewPlan(plan);
 
-  FileManager fileManager = new FileManager();
+  InstantFileManager fileManager = new InstantFileManager();
 
   public DashboardWindow() {
     super("Suncat's Javalar");
@@ -82,25 +79,31 @@ public class DashboardWindow extends JFrame {
   private class NextLineButton extends ActionButton {
 
     JLabel indicator;
+    Instant instant = plan.getInstant();
 
     public NextLineButton() {
       super("instant.png");
 
+      setToolTipText("Processar próximo instante");
+
       this.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          if (!plan.isValuesEmpty()) {
-            if (plan.instant.getCurrentInstant() < plan.instant.getListOfInstants().size()) {
-              plan.simulate();
-              viewPlan.revalidateViewCells();
-              setIndicator();
-              revalidate();
-              repaint();
+          for (int i = 0; i < plan.getInstant().getListOfInstants().size(); i++) {
+            if (!plan.isValuesEmpty()) {
+              if (instant.getCurrentInstant() < instant.getListOfInstants().size()) {
+                plan.simulate();
+                viewPlan.revalidateViewCells();
+                setIndicator();
+                revalidate();
+                repaint();
+                plan.insertPlan();
+              } else {
+                JOptionPane.showMessageDialog(null, "Fim da simulação!", "Atenção", JOptionPane.WARNING_MESSAGE);
+              }
             } else {
-              JOptionPane.showMessageDialog(null, "Fim da simulação!", "Atenção", JOptionPane.WARNING_MESSAGE);
+              JOptionPane.showMessageDialog(null, "Selecione um arquivo!", "Erro", JOptionPane.WARNING_MESSAGE);
             }
-          } else {
-            JOptionPane.showMessageDialog(null, "Selecione um arquivo!", "Erro", JOptionPane.WARNING_MESSAGE);
           }
         }
       });
@@ -112,7 +115,7 @@ public class DashboardWindow extends JFrame {
         if (indicator != null) {
           this.remove(indicator);
         }
-        indicator = new JLabel(plan.instant.getCurrentInstant() + "/" + plan.instant.getListOfInstants().size());
+        indicator = new JLabel(instant.getCurrentInstant() + "/" + instant.getListOfInstants().size());
         indicator.setForeground(Color.WHITE);
         indicator.setFont(new Font("Arial Bold", Font.BOLD, 8));
         indicator.setHorizontalAlignment(JLabel.CENTER);
@@ -125,10 +128,15 @@ public class DashboardWindow extends JFrame {
     public UploadButton() {
       super("upload.png");
 
+      setToolTipText("Ler novo arquivo de entrada");
+
       this.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          plan.instant.processInstants();
+          plan.getInstant().processInstants();
+          if (!plan.isValuesEmpty()) {
+            setBorder(BorderFactory.createLineBorder(Color.GREEN, 2, true));
+          }
         }
       });
     }
@@ -138,18 +146,37 @@ public class DashboardWindow extends JFrame {
   private class ReportButton extends ActionButton {
     public ReportButton() {
       super("report.png");
+      setToolTipText("Gerar relatório");
+
+      this.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          plan.insertPlan();
+        }
+      });
     }
   }
 
   private class ClassroomButton extends ActionButton {
     public ClassroomButton() {
       super("classroom.png");
+
+      setToolTipText("Ler dados do grupo");
+
+      this.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          plan.getReport().registerReport();
+        }
+      });
     }
   }
 
   private class SaveButton extends ActionButton {
     public SaveButton() {
       super("save.png");
+
+      setToolTipText("Salvar arquivo de saída");
     }
   }
 
