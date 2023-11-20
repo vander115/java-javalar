@@ -21,7 +21,6 @@ import model.entities.PlanDAO;
 public class Plan {
 
 	private PlanDAO planDAO = new PlanDAO();
-	private Telescope telescope = new Telescope();
 	private Report report = new Report();
 
 	private Cell[][] cells = new Cell[15][15];
@@ -182,6 +181,14 @@ public class Plan {
 
 	public void insertPlan() {
 		planDAO.insertPlan(this);
+	}
+
+	public int getNumberOfBugsInQuadrant(int quadrant) {
+		return Telescope.countBugsInQuadrant(bugs, quadrant);
+	}
+
+	public int getNumberOfDevelopersInQuadrant(int quadrant) {
+		return Telescope.countDevsInQuadrant(developers, quadrant);
 	}
 
 }

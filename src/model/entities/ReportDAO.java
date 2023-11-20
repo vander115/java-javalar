@@ -17,7 +17,7 @@ public class ReportDAO {
     try {
       Connection connection = new Connector().getConnection();
 
-      String sql = "SELECT * FROM javalar";
+      String sql = "SELECT * FROM tb_javalar";
 
       return connection.prepareStatement(sql).executeQuery();
     } catch (SQLException e) {

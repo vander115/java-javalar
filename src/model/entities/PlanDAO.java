@@ -62,23 +62,22 @@ public class PlanDAO {
         }
       }
 
-      plan.getTelescope().observeAlignements(plan.getBugs(), plan.getDevelopers());
-
-      bugsInQuadrantsValues.append(plan.getTelescope().getBugsInFirstQuadrant() + ", ");
-      bugsInQuadrantsValues.append(plan.getTelescope().getBugsInSecondQuadrant() + ", ");
-      bugsInQuadrantsValues.append(plan.getTelescope().getBugsInThirdQuadrant() + ", ");
-      bugsInQuadrantsValues.append(plan.getTelescope().getBugsInFourthQuadrant());
+      bugsInQuadrantsValues.append(plan.getNumberOfBugsInQuadrant(1) + ", ");
+      bugsInQuadrantsValues.append(plan.getNumberOfBugsInQuadrant(2) + ", ");
+      bugsInQuadrantsValues.append(plan.getNumberOfBugsInQuadrant(3) + ", ");
+      bugsInQuadrantsValues.append(plan.getNumberOfBugsInQuadrant(4));
 
       devsInQuadrantsValues.append(plan.getTelescope().getDevsInFirstQuadrant() + ", ");
       devsInQuadrantsValues.append(plan.getTelescope().getDevsInSecondQuadrant() + ", ");
       devsInQuadrantsValues.append(plan.getTelescope().getDevsInThirdQuadrant() + ", ");
       devsInQuadrantsValues.append(plan.getTelescope().getDevsInFourthQuadrant());
 
-      String sql = "INSERT INTO javalar (nome, matricula, nome_arquivo, " + bugString + ", " + devString + ", "
+      String sql = "INSERT INTO tb_javalar (nome, matricula, nome_arquivo, " + bugString + ", " + devString + ", "
           + velocityString
           + ", "
           + daysString + ", " + yearsString + ", " + bugsInQuadrantsString + ", " + devsInQuadrantsString + ") "
-          + "VALUES ('José Vanderlei Furtuna Tomé', 554397, '" + plan.getInstant().getFileName() + "', " + bugValues
+          + "VALUES ('José Vanderlei Furtuna Tomé', 554397, '" + plan.getInstant().getFileName() + "', "
+          + bugValues
           + ", "
           + devValues + ", " + velocityValues
           + ", " + daysValues + ", " + yearsValues
