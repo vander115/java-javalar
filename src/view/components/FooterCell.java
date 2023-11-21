@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import controller.entities.planets.Planet;
@@ -14,7 +15,10 @@ public class FooterCell extends JButton {
     super();
     setToolTipText(planet.getName());
     setPreferredSize(new Dimension(30, 30));
-    setIcon(Utils.convertIconToGrayScale(planet.getIcon()));
+    ImageIcon icon = planet.getIcon();
+    ImageIcon grayScaledIcon = Utils.convertIconToGrayScale(icon);
+    ImageIcon resizedIcon = Utils.resizeImage(grayScaledIcon, 30, 30);
+    setIcon(resizedIcon);
 
     setOpaque(false);
     setBackground(new Color(0, 0, 0, 0));

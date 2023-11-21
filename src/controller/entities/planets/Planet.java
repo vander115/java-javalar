@@ -10,9 +10,7 @@ import controller.tools.Satellite;
 
 abstract public class Planet extends Element {
 
-	protected String name;
 	protected String slug;
-	protected String description;
 	protected PlanetIndex index;
 	protected int velocity;
 	public Time time;
@@ -50,10 +48,6 @@ abstract public class Planet extends Element {
 		return index;
 	}
 
-	public String getName() {
-		return name;
-	}
-
 	public String getSlug() {
 		return slug;
 	}
@@ -72,10 +66,6 @@ abstract public class Planet extends Element {
 
 	public Time getTime() {
 		return time;
-	}
-
-	public String getDescription() {
-		return description;
 	}
 
 	public int getNumberOfTranslations() {

@@ -3,6 +3,7 @@ package controller.tools;
 import javax.swing.ImageIcon;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorConvertOp;
@@ -39,4 +40,10 @@ public class Utils {
     icon = new ImageIcon(image);
     return icon;
   }
+
+  public static ImageIcon resizeImage(ImageIcon icon, int width, int height) {
+    Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+    return new ImageIcon(image);
+  }
+
 }

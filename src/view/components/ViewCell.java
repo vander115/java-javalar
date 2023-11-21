@@ -5,13 +5,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
-
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 import controller.entities.plan.Element;
 import controller.entities.plan.Cell;
 import controller.enums.ElementType;
+import controller.tools.Utils;
 
 public class ViewCell extends JPanel {
 
@@ -33,7 +34,8 @@ public class ViewCell extends JPanel {
     labelIcon.setVisible(true);
 
     if (cell.getElementType() != ElementType.EMPTY) {
-      labelIcon.setIcon(((Element) cell.getElement()).getIcon());
+      ImageIcon icon = ((Element) cell.getElement()).getIcon();
+      labelIcon.setIcon(Utils.resizeImage(icon, 30, 30));
       this.add(labelIcon, BorderLayout.CENTER);
     }
 
