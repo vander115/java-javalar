@@ -9,8 +9,6 @@ import java.nio.file.StandardCopyOption;
 
 import javax.swing.JFileChooser;
 
-import controller.entities.stars.Star;
-
 public class ReportFileManager {
 
   File file;

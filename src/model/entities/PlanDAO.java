@@ -67,10 +67,10 @@ public class PlanDAO {
       bugsInQuadrantsValues.append(plan.getNumberOfBugsInQuadrant(3) + ", ");
       bugsInQuadrantsValues.append(plan.getNumberOfBugsInQuadrant(4));
 
-      devsInQuadrantsValues.append(plan.getTelescope().getDevsInFirstQuadrant() + ", ");
-      devsInQuadrantsValues.append(plan.getTelescope().getDevsInSecondQuadrant() + ", ");
-      devsInQuadrantsValues.append(plan.getTelescope().getDevsInThirdQuadrant() + ", ");
-      devsInQuadrantsValues.append(plan.getTelescope().getDevsInFourthQuadrant());
+      devsInQuadrantsValues.append(plan.getNumberOfDevelopersInQuadrant(1) + ", ");
+      devsInQuadrantsValues.append(plan.getNumberOfDevelopersInQuadrant(2) + ", ");
+      devsInQuadrantsValues.append(plan.getNumberOfDevelopersInQuadrant(3) + ", ");
+      devsInQuadrantsValues.append(plan.getNumberOfDevelopersInQuadrant(4));
 
       String sql = "INSERT INTO tb_javalar (nome, matricula, nome_arquivo, " + bugString + ", " + devString + ", "
           + velocityString

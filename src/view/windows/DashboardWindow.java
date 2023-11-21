@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -18,10 +19,15 @@ import javax.swing.JPanel;
 
 import controller.entities.plan.Instant;
 import controller.entities.plan.Plan;
+import controller.entities.planets.Planet;
 import controller.files.InstantFileManager;
+import view.components.FooterCell;
 import view.components.Buttons.ActionButton;
+import view.containers.Footer;
+
 import view.containers.Header;
 import view.containers.ViewPlan;
+import view.style.Fonts;
 
 public class DashboardWindow extends JFrame {
 
@@ -29,6 +35,7 @@ public class DashboardWindow extends JFrame {
 
   JLabel content;
   Header header;
+  Footer footer;
   Plan plan = new Plan();
 
   ViewPlan viewPlan = new ViewPlan(plan);
@@ -39,7 +46,7 @@ public class DashboardWindow extends JFrame {
     super("Suncat's Javalar");
     setLayout(new BorderLayout());
     setResizable(false);
-    setSize(600, 670);
+    setSize(580, 670);
     setIconImage(new ImageIcon("src/view/assets/icons/suncat.png").getImage());
     setLocationRelativeTo(null);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,6 +57,8 @@ public class DashboardWindow extends JFrame {
     content.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
 
     header = new Header();
+    footer = new Footer();
+
     setButtonsContainer();
 
     content.add(header, BorderLayout.NORTH);
@@ -76,6 +85,48 @@ public class DashboardWindow extends JFrame {
     header.add(buttonsContainer, BorderLayout.EAST);
   }
 
+  public void setFooter() {
+    ArrayList<Planet> diedPlanets = new ArrayList<Planet>();
+
+    for (Planet planet : plan.getPlanets()) {
+      if (planet.getVelocity() <= 0) {
+        diedPlanets.add(planet);
+      }
+    }
+
+    if (diedPlanets.size() == 0) {
+      return;
+    }
+
+    int width = (diedPlanets.size() * 40) + (diedPlanets.size() - 1 * 8);
+
+    JPanel planetsContent = new JPanel();
+    planetsContent.setLayout(new GridLayout(1, diedPlanets.size(), 4, 0));
+    planetsContent.setPreferredSize(new Dimension(width, 36));
+    planetsContent.setOpaque(false);
+
+    for (Planet diedPlanet : diedPlanets) {
+      planetsContent.add(new FooterCell(diedPlanet));
+    }
+
+    JLabel label = new JLabel("Planetas que morreram:");
+    label.setForeground(Color.WHITE);
+    label.setFont(Fonts.upheavalPro(16));
+    label.setHorizontalAlignment(JLabel.CENTER);
+    label.setVerticalAlignment(JLabel.CENTER);
+
+    this.setSize(new Dimension(580, 710));
+
+    content.remove(footer);
+    footer.removeAll();
+    footer.add(planetsContent, BorderLayout.EAST);
+    footer.add(label, BorderLayout.WEST);
+    content.add(footer, BorderLayout.SOUTH);
+
+    revalidate();
+    repaint();
+  }
+
   private class NextLineButton extends ActionButton {
 
     JLabel indicator;
@@ -89,23 +140,25 @@ public class DashboardWindow extends JFrame {
       this.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          for (int i = 0; i < plan.getInstant().getListOfInstants().size(); i++) {
-            if (!plan.isValuesEmpty()) {
-              if (instant.getCurrentInstant() < instant.getListOfInstants().size()) {
-                plan.simulate();
-                viewPlan.revalidateViewCells();
-                setIndicator();
-                revalidate();
-                repaint();
-                plan.insertPlan();
-              } else {
-                JOptionPane.showMessageDialog(null, "Fim da simulação!", "Atenção", JOptionPane.WARNING_MESSAGE);
-              }
+          // for (int i = 0; i < plan.getInstant().getListOfInstants().size(); i++) {
+          if (!plan.isValuesEmpty()) {
+            if (instant.getCurrentInstant() < instant.getListOfInstants().size()) {
+              plan.simulate();
+              viewPlan.revalidateViewCells();
+              setIndicator();
+              setFooter();
+              revalidate();
+              repaint();
+              // plan.insertPlan();
             } else {
-              JOptionPane.showMessageDialog(null, "Selecione um arquivo!", "Erro", JOptionPane.WARNING_MESSAGE);
+              JOptionPane.showMessageDialog(null, "Fim da simulação!", "Atenção", JOptionPane.WARNING_MESSAGE);
             }
+          } else {
+            JOptionPane.showMessageDialog(null, "Selecione um arquivo!", "Erro", JOptionPane.WARNING_MESSAGE);
           }
         }
+        // }
+
       });
 
     }
@@ -133,6 +186,7 @@ public class DashboardWindow extends JFrame {
       this.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+          // plan.resetPlan();
           plan.getInstant().processInstants();
           if (!plan.isValuesEmpty()) {
             setBorder(BorderFactory.createLineBorder(Color.GREEN, 2, true));
@@ -151,7 +205,11 @@ public class DashboardWindow extends JFrame {
       this.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          plan.insertPlan();
+          if (!plan.isValuesEmpty()) {
+            plan.insertPlan();
+          } else {
+            JOptionPane.showMessageDialog(null, "Selecione um arquivo!", "Erro", JOptionPane.WARNING_MESSAGE);
+          }
         }
       });
     }
@@ -175,8 +233,21 @@ public class DashboardWindow extends JFrame {
   private class SaveButton extends ActionButton {
     public SaveButton() {
       super("save.png");
-
       setToolTipText("Salvar arquivo de saída");
+
+      this.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          try {
+            plan.getReport().saveFile();
+            JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso!", "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE);
+          } catch (Exception e1) {
+            e1.printStackTrace();
+          }
+
+        }
+      });
     }
   }
 

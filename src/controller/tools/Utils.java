@@ -1,5 +1,12 @@
 package controller.tools;
 
+import javax.swing.ImageIcon;
+
+import java.awt.Graphics2D;
+import java.awt.color.ColorSpace;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorConvertOp;
+
 public class Utils {
 
   public static String getPlanetName(int index) {
@@ -21,5 +28,15 @@ public class Utils {
       default:
         return null;
     }
+  }
+
+  public static ImageIcon convertIconToGrayScale(ImageIcon icon) {
+    BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+    Graphics2D g2d = (Graphics2D) image.getGraphics();
+    g2d.drawImage(icon.getImage(), 0, 0, null);
+    ColorConvertOp op = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
+    op.filter(image, image);
+    icon = new ImageIcon(image);
+    return icon;
   }
 }

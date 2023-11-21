@@ -84,4 +84,8 @@ public class Report {
     fileManager.createReportFile(content.toString());
   }
 
+  public void saveFile() {
+    fileManager.saveReportFile();
+  }
+
 }

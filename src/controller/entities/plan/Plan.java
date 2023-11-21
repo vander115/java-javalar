@@ -71,10 +71,6 @@ public class Plan {
 		return developers;
 	}
 
-	public Telescope getTelescope() {
-		return telescope;
-	}
-
 	public boolean isValuesEmpty() {
 		return instant.getListOfInstants().isEmpty();
 	}
@@ -164,7 +160,6 @@ public class Plan {
 	}
 
 	private void updateEmptyCellValue() {
-
 		for (Cell[] columnCells : cells) {
 			for (Cell cell : columnCells) {
 				if (cell.checkIsOcuppied()) {
@@ -189,6 +184,21 @@ public class Plan {
 
 	public int getNumberOfDevelopersInQuadrant(int quadrant) {
 		return Telescope.countDevsInQuadrant(developers, quadrant);
+	}
+
+	public void resetPlan() {
+		planets = new ArrayList<>();
+		bugs = new ArrayList<>();
+		developers = new ArrayList<>();
+		emptyPositions = new ArrayList<Position>();
+		instant = new Instant();
+		cells = new Cell[15][15];
+		report = new Report();
+
+		setCells();
+		setStar();
+		setPlanets();
+		updateEmptyCellValue();
 	}
 
 }

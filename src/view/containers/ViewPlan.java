@@ -1,5 +1,6 @@
 package view.containers;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -17,11 +18,13 @@ public class ViewPlan extends JPanel {
     super();
     this.plan = plan;
 
-    setPreferredSize(new Dimension(506, 506));
-    setLayout(new GridLayout(15, 15, 4, 4));
-    // setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+    setPreferredSize(new Dimension(478, 478));
+    setSize(new Dimension(478, 478));
+    setLayout(new GridLayout(15, 15, 2, 2));
+
     setOpaque(false);
     setBackground(null);
+
     setViewCells();
 
   }
