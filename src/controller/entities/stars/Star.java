@@ -9,7 +9,6 @@ import controller.entities.plan.Position;
 import controller.enums.ElementType;
 
 public abstract class Star extends Element {
-    protected String name;
     protected ArrayList<Position> positions = new ArrayList<>();
 
     public Star(String name, String filename) {

@@ -15,7 +15,6 @@ public class Satellite {
 		return position01.getX() == position02.getX() && position01.getY() == position02.getY();
 	}
 
-
 	public static double calculateEuclideanDistance(Position position1, Position position2) {
 		return Math.sqrt(
 				Math.pow(position1.getX() - position2.getX(), 2) + Math.pow(position1.getY() - position2.getY(), 2));
@@ -50,7 +49,7 @@ public class Satellite {
 	}
 
 	public static void checkPlanetExploded(Planet planet, Cell cell) {
-		if (planet.getVelocity() > 0) {
+		if (planet.isAlive()) {
 			cell.setElement(planet);
 		} else {
 			cell.deleteElement();
@@ -65,7 +64,7 @@ public class Satellite {
 				&& elementType == ElementType.PLANET)
 			cell.deleteElement();
 
-		if (Satellite.isPositionsEqual(cell.getPosition(), planet.getPosition()) && planet.getVelocity() > 0) {
+		if (Satellite.isPositionsEqual(cell.getPosition(), planet.getPosition()) && planet.isAlive()) {
 			if (cell.checkIsOcuppied()) {
 
 				if (elementType == ElementType.DEVELOPER) {

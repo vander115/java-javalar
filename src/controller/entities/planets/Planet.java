@@ -118,7 +118,7 @@ abstract public class Planet extends Element {
 			moveOnePositionPlanet();
 			checkTranslation();
 		}
-		if (velocity > 0) {
+		if (isAlive()) {
 			time.incrementHours(numberOfInstant);
 		}
 	}
@@ -137,6 +137,10 @@ abstract public class Planet extends Element {
 		if (Satellite.isPositionsEqual(position, initialPosition)) {
 			numberOfTranslations++;
 		}
+	}
+
+	public boolean isAlive() {
+		return velocity > 0;
 	}
 
 	public ElementType getElementType() {

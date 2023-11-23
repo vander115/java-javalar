@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import controller.entities.plan.Instant;
 import controller.entities.plan.Plan;
 import controller.entities.planets.Planet;
 import controller.files.InstantFileManager;
@@ -28,6 +27,8 @@ import view.containers.Footer;
 import view.containers.Header;
 import view.containers.ViewPlan;
 import view.style.Fonts;
+import view.style.Paths;
+import view.style.Sizes;
 
 public class DashboardWindow extends JFrame {
 
@@ -46,8 +47,8 @@ public class DashboardWindow extends JFrame {
     super("Suncat's Javalar");
     setLayout(new BorderLayout());
     setResizable(false);
-    setSize(580, 670);
-    setIconImage(new ImageIcon("src/view/assets/icons/suncat.png").getImage());
+    setSize(Sizes.WINDOW_DIMENSION);
+    setIconImage(new ImageIcon(Paths.ICONS_PATH + "suncat.png").getImage());
     setLocationRelativeTo(null);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
@@ -89,7 +90,7 @@ public class DashboardWindow extends JFrame {
     ArrayList<Planet> diedPlanets = new ArrayList<Planet>();
 
     for (Planet planet : plan.getPlanets()) {
-      if (planet.getVelocity() <= 0) {
+      if (!planet.isAlive()) {
         diedPlanets.add(planet);
       }
     }
@@ -98,7 +99,7 @@ public class DashboardWindow extends JFrame {
       return;
     }
 
-    int width = (diedPlanets.size() * 40) + (diedPlanets.size() - 1 * 8);
+    int width = (diedPlanets.size() * 35) + (diedPlanets.size() - 1 * 8);
 
     JPanel planetsContent = new JPanel();
     planetsContent.setLayout(new GridLayout(1, diedPlanets.size(), 4, 0));
@@ -109,7 +110,7 @@ public class DashboardWindow extends JFrame {
       planetsContent.add(new FooterCell(diedPlanet));
     }
 
-    JLabel label = new JLabel("Planetas que morreram:");
+    JLabel label = new JLabel("Planetas que explodiram:");
     label.setForeground(Color.WHITE);
     label.setFont(Fonts.upheavalPro(16));
     label.setHorizontalAlignment(JLabel.CENTER);
@@ -130,7 +131,6 @@ public class DashboardWindow extends JFrame {
   private class NextLineButton extends ActionButton {
 
     JLabel indicator;
-    Instant instant = plan.getInstant();
 
     public NextLineButton() {
       super("instant.png");
@@ -142,7 +142,7 @@ public class DashboardWindow extends JFrame {
         public void actionPerformed(ActionEvent e) {
           // for (int i = 0; i < plan.getInstant().getListOfInstants().size(); i++) {
           if (!plan.isValuesEmpty()) {
-            if (instant.getCurrentInstant() < instant.getListOfInstants().size()) {
+            if (plan.getInstant().getCurrentInstant() < plan.getInstant().getListOfInstants().size()) {
               plan.simulate();
               viewPlan.revalidateViewCells();
               setIndicator();
@@ -168,7 +168,8 @@ public class DashboardWindow extends JFrame {
         if (indicator != null) {
           this.remove(indicator);
         }
-        indicator = new JLabel(instant.getCurrentInstant() + "/" + instant.getListOfInstants().size());
+        indicator = new JLabel(
+            plan.getInstant().getCurrentInstant() + "/" + plan.getInstant().getListOfInstants().size());
         indicator.setForeground(Color.WHITE);
         indicator.setFont(new Font("Arial Bold", Font.BOLD, 8));
         indicator.setHorizontalAlignment(JLabel.CENTER);
@@ -186,8 +187,9 @@ public class DashboardWindow extends JFrame {
       this.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          // plan.resetPlan();
+          resetPlan();
           plan.getInstant().processInstants();
+
           if (!plan.isValuesEmpty()) {
             setBorder(BorderFactory.createLineBorder(Color.GREEN, 2, true));
           }
@@ -245,10 +247,17 @@ public class DashboardWindow extends JFrame {
           } catch (Exception e1) {
             e1.printStackTrace();
           }
-
         }
       });
     }
+  }
+
+  public void resetPlan() {
+    plan.resetPlan();
+    viewPlan.setViewCells();
+    viewPlan.revalidateViewCells();
+    this.remove(footer);
+    this.setSize(new Dimension(580, 670));
   }
 
 }

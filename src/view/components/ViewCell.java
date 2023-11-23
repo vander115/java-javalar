@@ -6,18 +6,17 @@ import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
+import javax.swing.JButton;
 
 import controller.entities.plan.Element;
 import controller.entities.plan.Cell;
 import controller.enums.ElementType;
 import controller.tools.Utils;
 
-public class ViewCell extends JPanel {
+public class ViewCell extends JButton {
 
   Cell cell;
-  JLabel labelIcon = new JLabel();
+  ElementType previousElementType;
 
   public ViewCell(Cell cell) {
     super();
@@ -28,16 +27,35 @@ public class ViewCell extends JPanel {
     setBackground(Color.YELLOW);
     setBorder(BorderFactory.createLineBorder(Color.WHITE, 1, true));
 
-    labelIcon.setLayout(new BorderLayout());
-    labelIcon.setPreferredSize(new Dimension(30, 30));
-    labelIcon.setOpaque(true);
-    labelIcon.setVisible(true);
+    previousElementType = cell.getElementType();
 
     if (cell.getElementType() != ElementType.EMPTY) {
-      ImageIcon icon = ((Element) cell.getElement()).getIcon();
-      labelIcon.setIcon(Utils.resizeImage(icon, 30, 30));
-      this.add(labelIcon, BorderLayout.CENTER);
+      setIcon();
     }
-
   }
+
+  public void revalidateIcon() {
+    if (cell.getElementType() != previousElementType) {
+      if (cell.getElementType() == ElementType.EMPTY) {
+        this.setIcon(null);
+      } else {
+        setIcon();
+      }
+      previousElementType = cell.getElementType();
+    }
+  }
+
+  public void setIcon() {
+    ImageIcon icon = ((Element) cell.getElement()).getIcon();
+    this.setIcon(Utils.resizeImage(icon, 32, 32));
+  }
+
+  public ElementType getElementType() {
+    return cell.getElementType();
+  }
+
+  public Cell getCell() {
+    return cell;
+  }
+
 }
