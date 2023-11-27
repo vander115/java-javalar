@@ -200,9 +200,7 @@ public class DashboardWindow extends JFrame {
 	}
 
 	private class ClassroomButton extends ActionButton {
-		/**
-		 * 
-		 */
+
 		private static final long serialVersionUID = 1L;
 
 		public ClassroomButton() {
