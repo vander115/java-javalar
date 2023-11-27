@@ -6,6 +6,7 @@ import controller.enums.ElementType;
 import controller.interfaces.IGetElementType;
 
 abstract public class Element implements IGetElementType {
+
 	protected ImageIcon icon;
 	protected String description;
 	protected String name;

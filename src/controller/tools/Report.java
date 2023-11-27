@@ -7,103 +7,102 @@ import model.entities.ReportDAO;
 import model.files.ReportFileManager;
 
 public class Report implements Runnable {
-  private ReportDAO reportDAO;
-  private ReportFileManager fileManager;
+	private ReportDAO reportDAO;
+	private ReportFileManager fileManager;
 
-  public Report() {
-    reportDAO = new ReportDAO();
-    fileManager = new ReportFileManager();
-  }
+	public Report() {
+		reportDAO = new ReportDAO();
+		fileManager = new ReportFileManager();
+	}
 
-  public Student getStudentProcessedMostInstants() {
-    return reportDAO.getStudentProcessedMostInstants();
-  }
+	public Student getStudentProcessedMostInstants() {
+		return reportDAO.getStudentProcessedMostInstants();
+	}
 
-  public String getPlanetDiedMost() {
-    return reportDAO.getPlanetDiedMost();
-  }
+	public String getPlanetDiedMost() {
+		return reportDAO.getPlanetDiedMost();
+	}
 
-  public int getQuadrantWhereBugsMostConcentrated() {
-    return reportDAO.getQuadrantWhereBugsMostConcentrated();
-  }
+	public int getQuadrantWhereBugsMostConcentrated() {
+		return reportDAO.getQuadrantWhereBugsMostConcentrated();
+	}
 
-  public int getQuadrantWhereDevsMostConcentrated() {
-    return reportDAO.getQuadrantWhereDevsMostConcentrated();
-  }
+	public int getQuadrantWhereDevsMostConcentrated() {
+		return reportDAO.getQuadrantWhereDevsMostConcentrated();
+	}
 
-  public int getAmountOfInstantsAnalyzed() {
-    return reportDAO.getAmountOfInstantsAnalyzed();
-  }
+	public int getAmountOfInstantsAnalyzed() {
+		return reportDAO.getAmountOfInstantsAnalyzed();
+	}
 
-  public int getAmountOfHoursPassed() {
-    return reportDAO.getAmountOfHoursPassed();
-  }
+	public int getAmountOfHoursPassed() {
+		return reportDAO.getAmountOfHoursPassed();
+	}
 
-  public int getAmountOfYearsPassed() {
-    return reportDAO.getAmountOfYearsPassed();
-  }
+	public int getAmountOfYearsPassed() {
+		return reportDAO.getAmountOfYearsPassed();
+	}
 
-  public int getAmoutOfBugsOccurrences() {
-    return reportDAO.getAmoutOfBugsOccurrences();
-  }
+	public int getAmoutOfBugsOccurrences() {
+		return reportDAO.getAmoutOfBugsOccurrences();
+	}
 
-  public int getAmoutOfDevsOccurrences() {
-    return reportDAO.getAmoutOfDevsOccurrences();
-  }
+	public int getAmoutOfDevsOccurrences() {
+		return reportDAO.getAmoutOfDevsOccurrences();
+	}
 
-  public double[] getAvarageVelocityOfPlanets() {
-    return reportDAO.getAvarageVelocityOfPlanets();
-  }
+	public double[] getAvarageVelocityOfPlanets() {
+		return reportDAO.getAvarageVelocityOfPlanets();
+	}
 
-  public String getPlanetThatHasMoreLife() {
-    return reportDAO.getPlanetThatHasMoreLife();
-  }
+	public String getPlanetThatHasMoreLife() {
+		return reportDAO.getPlanetThatHasMoreLife();
+	}
 
-  public void registerReport() {
-    StringBuilder content = new StringBuilder();
+	public void registerReport() {
+		StringBuilder content = new StringBuilder();
 
-    Student student = getStudentProcessedMostInstants();
+		Student student = getStudentProcessedMostInstants();
 
-    content.append(student.getEnrollment() + " - " + student.getName());
-    content.append(", " + getPlanetDiedMost());
-    content.append(", " + getPlanetThatHasMoreLife());
-    content.append(", " + getQuadrantWhereBugsMostConcentrated());
-    content.append(", " + getQuadrantWhereDevsMostConcentrated());
-    content.append(", " + getAmountOfInstantsAnalyzed());
+		content.append(student.getEnrollment() + " - " + student.getName());
+		content.append(", " + getPlanetDiedMost());
+		content.append(", " + getPlanetThatHasMoreLife());
+		content.append(", " + getQuadrantWhereBugsMostConcentrated());
+		content.append(", " + getQuadrantWhereDevsMostConcentrated());
+		content.append(", " + getAmountOfInstantsAnalyzed());
 
-    double[] avarageVelocity = getAvarageVelocityOfPlanets();
+		double[] avarageVelocity = getAvarageVelocityOfPlanets();
 
-    for (int i = 0; i < avarageVelocity.length; i++) {
-      String planetName = Utils.getPlanetName(i + 1);
-      String expression = planetName + ": " + String.format("%.2f", avarageVelocity[i]);
-      if (i == 0) {
-        content.append(", " + expression);
-      } else {
-        content.append(" - " + expression);
-      }
-    }
+		for (int i = 0; i < avarageVelocity.length; i++) {
+			String planetName = Utils.getPlanetName(i + 1);
+			String expression = planetName + ": " + String.format("%.2f", avarageVelocity[i]);
+			if (i == 0) {
+				content.append(", " + expression);
+			} else {
+				content.append(" - " + expression);
+			}
+		}
 
-    content.append(", " + getAmoutOfBugsOccurrences());
-    content.append(", " + getAmoutOfDevsOccurrences());
-    content.append(", " + getAmountOfHoursPassed());
-    content.append(", " + getAmountOfYearsPassed());
+		content.append(", " + getAmoutOfBugsOccurrences());
+		content.append(", " + getAmoutOfDevsOccurrences());
+		content.append(", " + getAmountOfHoursPassed());
+		content.append(", " + getAmountOfYearsPassed());
 
-    fileManager.createReportFile(content.toString());
-  }
+		fileManager.createReportFile(content.toString());
+	}
 
-  public void saveFile() {
-    fileManager.saveReportFile();
-  }
+	public void saveFile() {
+		fileManager.saveReportFile();
+	}
 
-  @Override
-  public void run() {
-    try {
-      registerReport();
-      JOptionPane.showMessageDialog(null, "Dados lidos com sucesso!", "Sucesso",
-          JOptionPane.INFORMATION_MESSAGE);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+	@Override
+	public void run() {
+		try {
+			registerReport();
+			JOptionPane.showMessageDialog(null, "Dados lidos com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

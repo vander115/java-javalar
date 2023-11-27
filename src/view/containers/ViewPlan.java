@@ -14,58 +14,60 @@ import view.components.ViewCell;
 
 public class ViewPlan extends JPanel implements ActionListener {
 
-  Plan plan;
-  ViewCell[][] viewCells = new ViewCell[15][15];
-  ElementDialog elementDialog;
+	private static final long serialVersionUID = 1L;
 
-  public ViewPlan(Plan plan) {
-    super();
-    this.plan = plan;
+	Plan plan;
+	ViewCell[][] viewCells = new ViewCell[15][15];
+	ElementDialog elementDialog;
 
-    setPreferredSize(new Dimension(478, 478));
-    setSize(new Dimension(478, 478));
-    setLayout(new GridLayout(15, 15, 2, 2));
+	public ViewPlan(Plan plan) {
+		super();
+		this.plan = plan;
 
-    setOpaque(false);
-    setBackground(null);
+		setPreferredSize(new Dimension(478, 478));
+		setSize(new Dimension(478, 478));
+		setLayout(new GridLayout(15, 15, 2, 2));
 
-    setViewCells();
+		setOpaque(false);
+		setBackground(null);
 
-  }
+		setViewCells();
 
-  public void setViewCells() {
-    this.removeAll();
-    for (int i = 14; i >= 0; i--) {
-      for (int j = 0; j < 15; j++) {
-        ViewCell newCell = new ViewCell(plan.getCells()[i][j]);
-        newCell.addActionListener(this);
-        viewCells[i][j] = newCell;
-        add(newCell);
-      }
-    }
-  }
+	}
 
-  public void revalidateCells() {
-    for (int i = 14; i >= 0; i--) {
-      for (int j = 0; j < 15; j++) {
-        viewCells[i][j].revalidateIcon();
-      }
-    }
-  }
+	public void setViewCells() {
+		this.removeAll();
+		for (int i = 14; i >= 0; i--) {
+			for (int j = 0; j < 15; j++) {
+				ViewCell newCell = new ViewCell(plan.getCells()[i][j]);
+				newCell.addActionListener(this);
+				viewCells[i][j] = newCell;
+				add(newCell);
+			}
+		}
+	}
 
-  public void revalidateViewCells() {
-    revalidateCells();
-    revalidate();
-    repaint();
-  }
+	public void revalidateCells() {
+		for (int i = 14; i >= 0; i--) {
+			for (int j = 0; j < 15; j++) {
+				viewCells[i][j].revalidateIcon();
+			}
+		}
+	}
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    Element element = ((ViewCell) e.getSource()).getCell().getElement();
-    if (element != null) {
-      elementDialog = new ElementDialog(element);
-      elementDialog.setVisible(true);
-    }
-  }
+	public void revalidateViewCells() {
+		revalidateCells();
+		revalidate();
+		repaint();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Element element = ((ViewCell) e.getSource()).getCell().getElement();
+		if (element != null) {
+			elementDialog = new ElementDialog(element);
+			elementDialog.setVisible(true);
+		}
+	}
 
 }

@@ -8,54 +8,55 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import controller.entities.plan.Element;
 import controller.entities.plan.Cell;
+import controller.entities.plan.Element;
 import controller.enums.ElementType;
 import controller.tools.Utils;
 
 public class ViewCell extends JButton {
 
-  Cell cell;
-  ElementType previousElementType;
+	private static final long serialVersionUID = 1L;
 
-  public ViewCell(Cell cell) {
-    super();
-    this.cell = cell;
-    setLayout(new BorderLayout());
-    setPreferredSize(new Dimension(30, 30));
-    setOpaque(false);
-    setBackground(Color.YELLOW);
-    setBorder(BorderFactory.createLineBorder(Color.WHITE, 1, true));
+	Cell cell;
+	ElementType previousElementType;
 
-    previousElementType = cell.getElementType();
+	public ViewCell(Cell cell) {
+		super();
+		this.cell = cell;
+		setLayout(new BorderLayout());
+		setPreferredSize(new Dimension(30, 30));
+		setOpaque(false);
+		setBorder(BorderFactory.createLineBorder(Color.WHITE, 1, true));
 
-    if (cell.getElementType() != ElementType.EMPTY) {
-      setIcon();
-    }
-  }
+		previousElementType = cell.getElementType();
 
-  public void revalidateIcon() {
-    if (cell.getElementType() != previousElementType) {
-      if (cell.getElementType() == ElementType.EMPTY) {
-        this.setIcon(null);
-      } else {
-        setIcon();
-      }
-      previousElementType = cell.getElementType();
-    }
-  }
+		if (cell.getElementType() != ElementType.EMPTY) {
+			setIcon();
+		}
+	}
 
-  public void setIcon() {
-    ImageIcon icon = ((Element) cell.getElement()).getIcon();
-    this.setIcon(Utils.resizeImage(icon, 32, 32));
-  }
+	public void revalidateIcon() {
+		if (cell.getElementType() != previousElementType) {
+			if (cell.getElementType() == ElementType.EMPTY) {
+				this.setIcon(null);
+			} else {
+				setIcon();
+			}
+			previousElementType = cell.getElementType();
+		}
+	}
 
-  public ElementType getElementType() {
-    return cell.getElementType();
-  }
+	public void setIcon() {
+		ImageIcon icon = ((Element) cell.getElement()).getIcon();
+		this.setIcon(Utils.resizeImage(icon, 32, 32));
+	}
 
-  public Cell getCell() {
-    return cell;
-  }
+	public ElementType getElementType() {
+		return cell.getElementType();
+	}
+
+	public Cell getCell() {
+		return cell;
+	}
 
 }

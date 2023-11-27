@@ -19,61 +19,63 @@ import view.style.Fonts;
 
 public class Footer extends JPanel {
 
-  Plan plan;
+	private static final long serialVersionUID = 1L;
 
-  public Footer(Plan plan) {
-    super();
-    this.plan = plan;
-    setPreferredSize(new Dimension(36, 36));
-    setLayout(new BorderLayout());
-    setOpaque(false);
+	Plan plan;
 
-    setBorder(BorderFactory.createEmptyBorder(4, 2, 0, 2));
+	public Footer(Plan plan) {
+		super();
+		this.plan = plan;
+		setPreferredSize(new Dimension(36, 36));
+		setLayout(new BorderLayout());
+		setOpaque(false);
 
-  }
+		setBorder(BorderFactory.createEmptyBorder(4, 2, 0, 2));
 
-  public void updateFooter() {
-    if (plan.getDiedPlanets().isEmpty()) {
-      System.out.println("Nenhum planeta explodiu");
-      return;
-    }
+	}
 
-    int width = (plan.getDiedPlanets().size() * 35) + (plan.getDiedPlanets().size() - 1 * 8);
+	public void updateFooter() {
+		if (plan.getDiedPlanets().isEmpty()) {
+			System.out.println("Nenhum planeta explodiu");
+			return;
+		}
 
-    JPanel planetsContent = new JPanel();
-    planetsContent.setLayout(new GridLayout(1, plan.getDiedPlanets().size(), 4, 0));
-    planetsContent.setPreferredSize(new Dimension(width, 36));
-    planetsContent.setOpaque(false);
+		int width = (plan.getDiedPlanets().size() * 35) + (plan.getDiedPlanets().size() - 1 * 8);
 
-    for (Planet diedPlanet : plan.getDiedPlanets()) {
-      System.out.println(diedPlanet.getName() + " explodiu");
-      FooterCell cell = new FooterCell(diedPlanet);
-      cell.addActionListener(getActionListener(diedPlanet));
-      planetsContent.add(cell);
-    }
+		JPanel planetsContent = new JPanel();
+		planetsContent.setLayout(new GridLayout(1, plan.getDiedPlanets().size(), 4, 0));
+		planetsContent.setPreferredSize(new Dimension(width, 36));
+		planetsContent.setOpaque(false);
 
-    JLabel label = new JLabel("Planetas que explodiram:");
-    label.setForeground(Color.WHITE);
-    label.setFont(Fonts.upheavalPro(16));
-    label.setHorizontalAlignment(JLabel.CENTER);
-    label.setVerticalAlignment(JLabel.CENTER);
+		for (Planet diedPlanet : plan.getDiedPlanets()) {
+			System.out.println(diedPlanet.getName() + " explodiu");
+			FooterCell cell = new FooterCell(diedPlanet);
+			cell.addActionListener(getActionListener(diedPlanet));
+			planetsContent.add(cell);
+		}
 
-    this.removeAll();
-    this.add(planetsContent, BorderLayout.EAST);
-    this.add(label, BorderLayout.WEST);
+		JLabel label = new JLabel("Planetas que explodiram:");
+		label.setForeground(Color.WHITE);
+		label.setFont(Fonts.upheavalPro(16));
+		label.setHorizontalAlignment(JLabel.CENTER);
+		label.setVerticalAlignment(JLabel.CENTER);
 
-    revalidate();
-    repaint();
-  }
+		this.removeAll();
+		this.add(planetsContent, BorderLayout.EAST);
+		this.add(label, BorderLayout.WEST);
 
-  public ActionListener getActionListener(Planet diedPlanet) {
-    return new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        ElementDialog elementDialog = new ElementDialog(diedPlanet);
-        elementDialog.setVisible(true);
-      }
-    };
-  }
+		revalidate();
+		repaint();
+	}
+
+	public ActionListener getActionListener(Planet diedPlanet) {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ElementDialog elementDialog = new ElementDialog(diedPlanet);
+				elementDialog.setVisible(true);
+			}
+		};
+	}
 
 }

@@ -2,7 +2,8 @@ package controller.tools;
 
 import java.util.ArrayList;
 
-import controller.entities.modifiers.*;
+import controller.entities.modifiers.Bug;
+import controller.entities.modifiers.Developer;
 import controller.entities.plan.Cell;
 import controller.entities.plan.Position;
 import controller.entities.planets.Planet;

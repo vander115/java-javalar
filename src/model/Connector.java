@@ -1,8 +1,11 @@
 package model;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Connector {
+
 	private String hostName;
 	private String userName;
 	private String password;
@@ -21,12 +24,13 @@ public class Connector {
 	}
 
 	public Connection getConnection() {
-		String url = "jdbc:mysql://" + this.hostName + "/" + this.database + "?verifyServerCertificate=false&useSSL=true";
+		String url = "jdbc:mysql://" + this.hostName + "/" + this.database
+				+ "?verifyServerCertificate=false&useSSL=true";
 		try {
 			return DriverManager.getConnection(url, userName, password);
 		} catch (SQLException ex) {
 			System.out.println("Não foi possível realizar conexão com o banco de dados :(");
-			ex.printStackTrace(); 
+			ex.printStackTrace();
 		}
 		return null;
 	}

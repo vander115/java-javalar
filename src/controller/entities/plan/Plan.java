@@ -221,12 +221,12 @@ public class Plan implements Runnable {
 	public void run() {
 		try {
 			insertPlan();
-			JOptionPane.showMessageDialog(null, "Relatório inserido com sucesso!",
-					"Sucesso",
+			JOptionPane.showMessageDialog(null, "Relatório inserido com sucesso!", "Sucesso",
 					JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Não foi possível salvar o plano!", "Erro", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Não foi possível salvar o plano!", "Erro",
+					JOptionPane.WARNING_MESSAGE);
 		}
 	}
 

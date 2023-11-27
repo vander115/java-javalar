@@ -3,7 +3,9 @@ package view;
 import view.windows.DashboardWindow;
 
 public class Main {
-  public static void main(String[] args) {
-    new DashboardWindow();
-  }
+
+	public static void main(String[] args) {
+		new DashboardWindow();
+	}
+
 }
