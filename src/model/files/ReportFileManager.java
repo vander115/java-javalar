@@ -14,8 +14,8 @@ public class ReportFileManager {
 	File file;
 
 	public void createReportFile(String content) {
-		String directoryPath = "src/output/";
-		String fileName = "report.txt";
+		String directoryPath = "output/";
+		String fileName = "Relatório Javalar.txt";
 
 		file = new File(directoryPath, fileName);
 

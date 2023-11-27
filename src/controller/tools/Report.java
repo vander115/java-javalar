@@ -101,6 +101,7 @@ public class Report implements Runnable {
 			registerReport();
 			JOptionPane.showMessageDialog(null, "Dados lidos com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Não foi possível ao ler os dados", "Erro", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
