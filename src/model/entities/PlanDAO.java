@@ -72,7 +72,7 @@ public class PlanDAO {
       devsInQuadrantsValues.append(plan.getNumberOfDevelopersInQuadrant(3) + ", ");
       devsInQuadrantsValues.append(plan.getNumberOfDevelopersInQuadrant(4));
 
-      String sql = "INSERT INTO tb_javalar (nome, matricula, nome_arquivo, " + bugString + ", " + devString + ", "
+      String sql = "INSERT INTO javalar (nome, matricula, nome_arquivo, " + bugString + ", " + devString + ", "
           + velocityString
           + ", "
           + daysString + ", " + yearsString + ", " + bugsInQuadrantsString + ", " + devsInQuadrantsString + ") "
@@ -84,13 +84,6 @@ public class PlanDAO {
           + ", " + bugsInQuadrantsValues + ", " + devsInQuadrantsValues + ")";
 
       connection.prepareStatement(sql).execute();
-
-      // JOptionPane.showMessageDialog(null, "Relatório inserido com sucesso!",
-      // "Sucesso",
-      // JOptionPane.INFORMATION_MESSAGE);
-
-      System.out.println("Requesição realizada com sucesso!");
-
       connection.close();
     } catch (Exception e) {
       e.printStackTrace();

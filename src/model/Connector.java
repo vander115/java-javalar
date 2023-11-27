@@ -9,15 +9,15 @@ public class Connector {
 	private String database;
 
 	public Connector() {
-		// this.hostName = "da_java.mysql.dbaas.com.br";
-		// this.database = "da_java";
-		// this.userName = "da_java";
-		// this.password = "Tecnicas*2023@";
+		this.hostName = "da_java.mysql.dbaas.com.br";
+		this.database = "da_java";
+		this.userName = "da_java";
+		this.password = "Tecnicas*2023@";
 
-		this.hostName = "localhost";
-		this.database = "db_javalar";
-		this.userName = "root";
-		this.password = "";
+		// this.hostName = "localhost";
+		// this.database = "db_javalar";
+		// this.userName = "root";
+		// this.password = "";
 	}
 
 	public Connection getConnection() {
@@ -26,7 +26,7 @@ public class Connector {
 			return DriverManager.getConnection(url, userName, password);
 		} catch (SQLException ex) {
 			System.out.println("Não foi possível realizar conexão com o banco de dados :(");
-			ex.printStackTrace();
+			ex.printStackTrace(); 
 		}
 		return null;
 	}

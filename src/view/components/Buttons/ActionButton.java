@@ -11,9 +11,9 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public class ActionButton extends JButton implements MouseListener {
+import view.style.Paths;
 
-  private final String DEFAULT_PATH = "src/view/assets/icons/";
+public class ActionButton extends JButton implements MouseListener {
 
   public ActionButton(String filename) {
     super();
@@ -24,7 +24,7 @@ public class ActionButton extends JButton implements MouseListener {
     addMouseListener(this);
 
     setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
-    setIcon(new ImageIcon(DEFAULT_PATH + filename));
+    setIcon(new ImageIcon(Paths.ICONS_PATH + filename));
 
   }
 

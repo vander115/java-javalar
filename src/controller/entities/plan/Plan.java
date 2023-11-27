@@ -2,6 +2,8 @@ package controller.entities.plan;
 
 import java.util.ArrayList;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
+
 import controller.entities.modifiers.Bug;
 import controller.entities.modifiers.Developer;
 import controller.entities.planets.C;
@@ -28,6 +30,7 @@ public class Plan {
 	private Java java = new Java();
 
 	private ArrayList<Planet> planets = new ArrayList<>();
+	private ArrayList<Planet> diedPlanets = new ArrayList<>();
 	private ArrayList<Bug> bugs = new ArrayList<>();
 	private ArrayList<Developer> developers = new ArrayList<>();
 
@@ -71,12 +74,16 @@ public class Plan {
 		return developers;
 	}
 
-	public boolean isValuesEmpty() {
-		return instant.getListOfInstants().isEmpty();
-	}
-
 	public ArrayList<Planet> getPlanets() {
 		return planets;
+	}
+
+	public ArrayList<Planet> getDiedPlanets() {
+		return diedPlanets;
+	}
+
+	public boolean isValuesEmpty() {
+		return instant.getListOfInstants().isEmpty();
 	}
 
 	private void setCells() {
@@ -149,7 +156,7 @@ public class Plan {
 			for (Cell cell : columnCell)
 				for (Planet planet : planets)
 					Satellite.checkCollisionBetweenElements(cell, planet, developers, bugs);
-
+		setDiedPlanets();
 		updateEmptyCellValue();
 	}
 
@@ -157,6 +164,14 @@ public class Plan {
 		int randomPositionIndex = (int) (Math.random() * emptyPositions.size());
 
 		return emptyPositions.get(randomPositionIndex);
+	}
+
+	public void setDiedPlanets() {
+		for (Planet planet : planets) {
+			if (!planet.isAlive() && !diedPlanets.contains(planet)) {
+				diedPlanets.add(planet);
+			}
+		}
 	}
 
 	private void updateEmptyCellValue() {
@@ -188,6 +203,7 @@ public class Plan {
 
 	public void resetPlan() {
 		planets = new ArrayList<>();
+		diedPlanets = new ArrayList<>();
 		bugs = new ArrayList<>();
 		developers = new ArrayList<>();
 		emptyPositions = new ArrayList<Position>();

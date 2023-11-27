@@ -1,8 +1,8 @@
 package controller.tools;
 
 import controller.entities.Student;
-import controller.files.ReportFileManager;
 import model.entities.ReportDAO;
+import model.files.ReportFileManager;
 
 public class Report {
   private ReportDAO reportDAO = new ReportDAO();

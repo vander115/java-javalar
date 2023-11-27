@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -18,15 +17,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.entities.plan.Plan;
-import controller.entities.planets.Planet;
-import controller.files.InstantFileManager;
-import view.components.FooterCell;
+import model.files.InstantFileManager;
 import view.components.Buttons.ActionButton;
 import view.containers.Footer;
 
 import view.containers.Header;
 import view.containers.ViewPlan;
-import view.style.Fonts;
 import view.style.Paths;
 import view.style.Sizes;
 
@@ -48,17 +44,17 @@ public class DashboardWindow extends JFrame {
     setLayout(new BorderLayout());
     setResizable(false);
     setSize(Sizes.WINDOW_DIMENSION);
-    setIconImage(new ImageIcon(Paths.ICONS_PATH + "suncat.png").getImage());
+    setIconImage(new ImageIcon(Paths.JAVALAR_ICON_PATH).getImage());
     setLocationRelativeTo(null);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
 
-    content = new JLabel(new ImageIcon("src/view/assets/images/background.png"));
+    content = new JLabel(new ImageIcon(Paths.BACKGROUND_PATH));
     content.setLayout(new BorderLayout());
     content.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
 
     header = new Header();
-    footer = new Footer();
+    footer = new Footer(plan);
 
     setButtonsContainer();
 
@@ -87,45 +83,20 @@ public class DashboardWindow extends JFrame {
   }
 
   public void setFooter() {
-    ArrayList<Planet> diedPlanets = new ArrayList<Planet>();
-
-    for (Planet planet : plan.getPlanets()) {
-      if (!planet.isAlive()) {
-        diedPlanets.add(planet);
-      }
-    }
-
-    if (diedPlanets.size() == 0) {
-      return;
-    }
-
-    int width = (diedPlanets.size() * 35) + (diedPlanets.size() - 1 * 8);
-
-    JPanel planetsContent = new JPanel();
-    planetsContent.setLayout(new GridLayout(1, diedPlanets.size(), 4, 0));
-    planetsContent.setPreferredSize(new Dimension(width, 36));
-    planetsContent.setOpaque(false);
-
-    for (Planet diedPlanet : diedPlanets) {
-      planetsContent.add(new FooterCell(diedPlanet));
-    }
-
-    JLabel label = new JLabel("Planetas que explodiram:");
-    label.setForeground(Color.WHITE);
-    label.setFont(Fonts.upheavalPro(16));
-    label.setHorizontalAlignment(JLabel.CENTER);
-    label.setVerticalAlignment(JLabel.CENTER);
-
-    this.setSize(new Dimension(580, 710));
-
+    this.setSize(new Dimension(580, 700));
     content.remove(footer);
-    footer.removeAll();
-    footer.add(planetsContent, BorderLayout.EAST);
-    footer.add(label, BorderLayout.WEST);
+    footer.updateFooter();
     content.add(footer, BorderLayout.SOUTH);
-
     revalidate();
     repaint();
+  }
+
+  public void resetPlan() {
+    plan.resetPlan();
+    viewPlan.setViewCells();
+    viewPlan.revalidateViewCells();
+    this.remove(footer);
+    this.setSize(Sizes.WINDOW_DIMENSION);
   }
 
   private class NextLineButton extends ActionButton {
@@ -140,16 +111,12 @@ public class DashboardWindow extends JFrame {
       this.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          // for (int i = 0; i < plan.getInstant().getListOfInstants().size(); i++) {
           if (!plan.isValuesEmpty()) {
             if (plan.getInstant().getCurrentInstant() < plan.getInstant().getListOfInstants().size()) {
               plan.simulate();
               viewPlan.revalidateViewCells();
               setIndicator();
               setFooter();
-              revalidate();
-              repaint();
-              // plan.insertPlan();
             } else {
               JOptionPane.showMessageDialog(null, "Fim da simulação!", "Atenção", JOptionPane.WARNING_MESSAGE);
             }
@@ -157,7 +124,6 @@ public class DashboardWindow extends JFrame {
             JOptionPane.showMessageDialog(null, "Selecione um arquivo!", "Erro", JOptionPane.WARNING_MESSAGE);
           }
         }
-        // }
 
       });
 
@@ -206,9 +172,16 @@ public class DashboardWindow extends JFrame {
 
       this.addActionListener(new ActionListener() {
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent actionEvent) {
           if (!plan.isValuesEmpty()) {
-            plan.insertPlan();
+            try {
+              plan.insertPlan();
+              JOptionPane.showMessageDialog(null, "Relatório inserido com sucesso!",
+                  "Sucesso",
+                  JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
           } else {
             JOptionPane.showMessageDialog(null, "Selecione um arquivo!", "Erro", JOptionPane.WARNING_MESSAGE);
           }
@@ -225,8 +198,15 @@ public class DashboardWindow extends JFrame {
 
       this.addActionListener(new ActionListener() {
         @Override
-        public void actionPerformed(ActionEvent e) {
-          plan.getReport().registerReport();
+        public void actionPerformed(ActionEvent actionEvent) {
+          try {
+            plan.getReport().registerReport();
+            JOptionPane.showMessageDialog(null, "Dados lidos com sucesso!", "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE);
+          } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao ler dados!", "Erro", JOptionPane.WARNING_MESSAGE);
+            e.printStackTrace();
+          }
         }
       });
     }
@@ -239,25 +219,18 @@ public class DashboardWindow extends JFrame {
 
       this.addActionListener(new ActionListener() {
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent actionEvent) {
           try {
             plan.getReport().saveFile();
             JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso!", "Sucesso",
                 JOptionPane.INFORMATION_MESSAGE);
-          } catch (Exception e1) {
-            e1.printStackTrace();
+          } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao salvar arquivo!", "Erro", JOptionPane.WARNING_MESSAGE);
+            e.printStackTrace();
           }
         }
       });
     }
-  }
-
-  public void resetPlan() {
-    plan.resetPlan();
-    viewPlan.setViewCells();
-    viewPlan.revalidateViewCells();
-    this.remove(footer);
-    this.setSize(new Dimension(580, 670));
   }
 
 }

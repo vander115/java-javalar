@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.files.InstantFileManager;
+import model.files.InstantFileManager;
 
 public class Instant {
 

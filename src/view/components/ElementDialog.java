@@ -7,9 +7,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import controller.entities.modifiers.Bug;
+import controller.entities.modifiers.Developer;
 import controller.entities.plan.Element;
 import controller.entities.planets.Planet;
-import controller.enums.ElementType;
+import controller.entities.stars.Star;
 import controller.tools.Utils;
 import view.style.Fonts;
 
@@ -17,12 +19,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import view.style.Paths;
 
 public class ElementDialog extends JDialog {
 
     private Element element;
 
-    JLabel content = new JLabel(new ImageIcon("src/view/assets/images/background.png"));
+    JLabel content = new JLabel(new ImageIcon(Paths.BACKGROUND_PATH));
 
     public ElementDialog(Element element) {
         super();
@@ -31,31 +34,35 @@ public class ElementDialog extends JDialog {
         setLocationRelativeTo(null);
         content.setLayout(new BorderLayout());
         content.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
-        if (element.getElementType() == ElementType.PLANET) {
-            setPlanetContent();
-        }
+        setElementContent(element);
         add(content);
         revalidate();
         repaint();
     }
 
+    public void setElementContent(Element element) {
+        switch (element.getElementType()) {
+            case PLANET:
+                setPlanetContent();
+                return;
+            case BUG:
+                setBugContent();
+                return;
+            case DEVELOPER:
+                setDevContent();
+                return;
+            case STAR:
+                setStarContent();
+                return;
+            default:
+                return;
+        }
+    }
+
     public void setPlanetContent() {
         Planet planet = (Planet) element;
 
-        JLabel icon = new JLabel(Utils.resizeImage(planet.getIcon(), 80, 80));
-        JLabel name = new JLabel(planet.getName());
-        name.setFont(Fonts.upheavalPro(20));
-        name.setForeground(Color.WHITE);
-        name.setHorizontalAlignment(JLabel.CENTER);
-        name.setVerticalAlignment(JLabel.CENTER);
-
-        JPanel iconContent = new JPanel();
-        iconContent.setPreferredSize(new Dimension(280, 125));
-        iconContent.setLayout(new BorderLayout());
-        iconContent.setOpaque(false);
-        iconContent.setBackground(Color.DARK_GRAY);
-        iconContent.add(icon, BorderLayout.CENTER);
-        iconContent.add(name, BorderLayout.SOUTH);
+        JPanel iconContent = setIconContent(planet.getIcon(), planet.getName());
 
         JPanel informationContent = new JPanel();
         informationContent.setPreferredSize(new Dimension(280, 100));
@@ -73,10 +80,88 @@ public class ElementDialog extends JDialog {
         informationContent.add(new InformationLabel("Horas passadas: " + planet.getTime().getPassedHours()));
         informationContent.add(new InformationLabel("Anos passados: " + planet.getNumberOfTranslations()));
 
-        JPanel description = new JPanel();
-        description.setPreferredSize(new Dimension(280, 150));
-        description.setLayout(new BorderLayout());
-        description.setOpaque(false);
+        JPanel description = setDescription(planet.getDescription());
+
+        setWindowInformations(planet.getIcon(), planet.getName());
+        content.add(iconContent, BorderLayout.NORTH);
+        content.add(informationContent, BorderLayout.CENTER);
+        content.add(description, BorderLayout.SOUTH);
+    }
+
+    public void setBugContent() {
+        Bug bug = (Bug) element;
+
+        JPanel iconContent = setIconContent(bug.getIcon(), "Bug");
+
+        JPanel informationContent = new JPanel();
+        informationContent.setPreferredSize(new Dimension(280, 100));
+        informationContent.setLayout(new GridLayout(1, 1));
+        informationContent.setOpaque(false);
+
+        informationContent.setBorder(BorderFactory.createEmptyBorder(16, 0, 16, 0));
+
+        informationContent.add(new InformationLabel(
+                "Posição: ( " + bug.getPosition().getX() + ", " + bug.getPosition().getY() + " )"));
+
+        JPanel description = setDescription(bug.getDescription());
+
+        setWindowInformations(bug.getIcon(), "Bug");
+        content.add(iconContent, BorderLayout.NORTH);
+        content.add(informationContent, BorderLayout.CENTER);
+        content.add(description, BorderLayout.SOUTH);
+    }
+
+    public void setDevContent() {
+        Developer dev = (Developer) element;
+
+        JPanel iconContent = setIconContent(dev.getIcon(), "Desenvolvedor");
+
+        JPanel informationContent = new JPanel();
+        informationContent.setPreferredSize(new Dimension(280, 100));
+        informationContent.setLayout(new GridLayout(1, 1));
+        informationContent.setOpaque(false);
+
+        informationContent.setBorder(BorderFactory.createEmptyBorder(16, 0, 16, 0));
+
+        informationContent.add(new InformationLabel(
+                "Posição: ( " + dev.getPosition().getX() + ", " + dev.getPosition().getY() + " )"));
+
+        JPanel description = setDescription(dev.getDescription());
+
+        setWindowInformations(dev.getIcon(), "Desenvolvedor");
+        content.add(iconContent, BorderLayout.NORTH);
+        content.add(informationContent, BorderLayout.CENTER);
+        content.add(description, BorderLayout.SOUTH);
+    }
+
+    public void setStarContent() {
+        Star star = (Star) element;
+
+        JPanel iconContent = setIconContent(star.getIcon(), star.getName());
+
+        JPanel informationContent = new JPanel();
+        informationContent.setPreferredSize(new Dimension(280, 100));
+        informationContent.setLayout(new GridLayout(1, 1));
+        informationContent.setOpaque(false);
+
+        informationContent.setBorder(BorderFactory.createEmptyBorder(16, 0, 16, 0));
+
+        informationContent.add(new InformationLabel(
+                "Posição: ( " + star.getPositions().get(0).getX() + ", " + star.getPositions().get(0).getY() + " )"));
+
+        JPanel description = setDescription(star.getDescription());
+
+        setWindowInformations(star.getIcon(), star.getName());
+        content.add(iconContent, BorderLayout.NORTH);
+        content.add(informationContent, BorderLayout.CENTER);
+        content.add(description, BorderLayout.SOUTH);
+    }
+
+    public JPanel setDescription(String description) {
+        JPanel descriptionContent = new JPanel();
+        descriptionContent.setPreferredSize(new Dimension(280, 200));
+        descriptionContent.setLayout(new BorderLayout());
+        descriptionContent.setOpaque(false);
 
         InformationLabel title = new InformationLabel("Descrição");
 
@@ -84,9 +169,9 @@ public class ElementDialog extends JDialog {
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setVerticalAlignment(JLabel.CENTER);
 
-        JTextArea descriptionLabel = new JTextArea(planet.getDescription());
+        JTextArea descriptionLabel = new JTextArea(description);
 
-        descriptionLabel.setPreferredSize(new Dimension(280, 150));
+        descriptionLabel.setPreferredSize(new Dimension(280, 200));
         descriptionLabel.setOpaque(false);
         descriptionLabel.setLineWrap(true);
         descriptionLabel.setForeground(Color.WHITE);
@@ -94,13 +179,34 @@ public class ElementDialog extends JDialog {
         descriptionLabel.setFont(Fonts.upheavalPro(16));
         descriptionLabel.setEditable(false);
 
-        description.add(title, BorderLayout.NORTH);
-        description.add(descriptionLabel, BorderLayout.CENTER);
-        this.setIconImage(planet.getIcon().getImage());
-        this.setTitle(planet.getName());
-        content.add(iconContent, BorderLayout.NORTH);
-        content.add(informationContent, BorderLayout.CENTER);
-        content.add(description, BorderLayout.SOUTH);
+        descriptionContent.add(title, BorderLayout.NORTH);
+        descriptionContent.add(descriptionLabel, BorderLayout.CENTER);
+
+        return descriptionContent;
+    }
+
+    public JPanel setIconContent(ImageIcon icon, String name) {
+        JLabel iconLabel = new JLabel(Utils.resizeImage(icon, 80, 80));
+        JLabel nameLabel = new JLabel(name);
+        nameLabel.setFont(Fonts.upheavalPro(20));
+        nameLabel.setForeground(Color.WHITE);
+        nameLabel.setHorizontalAlignment(JLabel.CENTER);
+        nameLabel.setVerticalAlignment(JLabel.CENTER);
+
+        JPanel iconContent = new JPanel();
+        iconContent.setPreferredSize(new Dimension(280, 125));
+        iconContent.setLayout(new BorderLayout());
+        iconContent.setOpaque(false);
+        iconContent.setBackground(Color.DARK_GRAY);
+        iconContent.add(iconLabel, BorderLayout.CENTER);
+        iconContent.add(nameLabel, BorderLayout.SOUTH);
+
+        return iconContent;
+    }
+
+    public void setWindowInformations(ImageIcon icon, String name) {
+        this.setIconImage(icon.getImage());
+        this.setTitle(name);
     }
 
     public class InformationLabel extends JLabel {

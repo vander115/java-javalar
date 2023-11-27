@@ -1,4 +1,4 @@
-package controller.files;
+package model.files;
 
 import java.io.BufferedWriter;
 import java.io.File;

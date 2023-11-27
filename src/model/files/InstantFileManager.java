@@ -1,4 +1,4 @@
-package controller.files;
+package model.files;
 
 import java.util.List;
 import java.io.File;

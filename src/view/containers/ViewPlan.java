@@ -63,7 +63,6 @@ public class ViewPlan extends JPanel implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     Element element = ((ViewCell) e.getSource()).getCell().getElement();
     if (element != null) {
-      System.out.println(element.getName());
       elementDialog = new ElementDialog(element);
       elementDialog.setVisible(true);
     }
