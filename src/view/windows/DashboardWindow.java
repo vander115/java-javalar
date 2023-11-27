@@ -106,6 +106,8 @@ public class DashboardWindow extends JFrame {
 
 	private class NextLineButton extends ActionButton {
 
+		private static final long serialVersionUID = 1L;
+
 		JLabel indicator;
 
 		public NextLineButton() {
@@ -152,6 +154,9 @@ public class DashboardWindow extends JFrame {
 	}
 
 	private class UploadButton extends ActionButton {
+
+		private static final long serialVersionUID = 1L;
+
 		public UploadButton() {
 			super("upload.png");
 
@@ -173,6 +178,9 @@ public class DashboardWindow extends JFrame {
 	}
 
 	private class ReportButton extends ActionButton {
+
+		private static final long serialVersionUID = 1L;
+
 		public ReportButton() {
 			super("report.png");
 			setToolTipText("Gerar relatório");
@@ -192,6 +200,11 @@ public class DashboardWindow extends JFrame {
 	}
 
 	private class ClassroomButton extends ActionButton {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public ClassroomButton() {
 			super("classroom.png");
 
@@ -212,6 +225,9 @@ public class DashboardWindow extends JFrame {
 	}
 
 	private class SaveButton extends ActionButton {
+
+		private static final long serialVersionUID = 1L;
+
 		public SaveButton() {
 			super("save.png");
 			setToolTipText("Salvar arquivo de saída");

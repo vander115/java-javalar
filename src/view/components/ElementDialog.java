@@ -212,6 +212,9 @@ public class ElementDialog extends JDialog {
 	}
 
 	public class InformationLabel extends JLabel {
+
+		private static final long serialVersionUID = 1L;
+
 		public InformationLabel(String text) {
 			super(text);
 			setFont(Fonts.upheavalPro(16));

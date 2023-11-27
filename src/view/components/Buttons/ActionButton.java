@@ -15,39 +15,41 @@ import view.style.Paths;
 
 public class ActionButton extends JButton implements MouseListener {
 
-  public ActionButton(String filename) {
-    super();
-    setLayout(new BorderLayout());
-    setPreferredSize(new Dimension(40, 40));
-    setOpaque(false);
-    setBackground(new Color(0, 0, 0, 0));
-    addMouseListener(this);
+	private static final long serialVersionUID = 1L;
 
-    setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
-    setIcon(new ImageIcon(Paths.ICONS_PATH + filename));
+	public ActionButton(String filename) {
+		super();
+		setLayout(new BorderLayout());
+		setPreferredSize(new Dimension(40, 40));
+		setOpaque(false);
+		setBackground(new Color(0, 0, 0, 0));
+		addMouseListener(this);
 
-  }
+		setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
+		setIcon(new ImageIcon(Paths.ICONS_PATH + filename));
 
-  @Override
-  public void mouseClicked(MouseEvent e) {
-  }
+	}
 
-  @Override
-  public void mousePressed(MouseEvent e) {
-  }
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
 
-  @Override
-  public void mouseReleased(MouseEvent e) {
-  }
+	@Override
+	public void mousePressed(MouseEvent e) {
+	}
 
-  @Override
-  public void mouseEntered(MouseEvent e) {
-    setCursor(new Cursor(Cursor.HAND_CURSOR));
+	@Override
+	public void mouseReleased(MouseEvent e) {
+	}
 
-  }
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-  @Override
-  public void mouseExited(MouseEvent e) {
-    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-  }
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	}
 }
