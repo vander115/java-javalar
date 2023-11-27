@@ -26,6 +26,7 @@ public class ViewCell extends JButton {
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(30, 30));
 		setOpaque(false);
+		setBackground(new Color(0, 0, 0, 0));
 		setBorder(BorderFactory.createLineBorder(Color.WHITE, 1, true));
 
 		previousElementType = cell.getElementType();

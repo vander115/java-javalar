@@ -1,5 +1,3 @@
-
-
 import view.windows.DashboardWindow;
 
 public class Main {
