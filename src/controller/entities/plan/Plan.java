@@ -2,7 +2,7 @@ package controller.entities.plan;
 
 import java.util.ArrayList;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
+import javax.swing.JOptionPane;
 
 import controller.entities.modifiers.Bug;
 import controller.entities.modifiers.Developer;
@@ -20,7 +20,7 @@ import controller.tools.Satellite;
 import controller.tools.Telescope;
 import model.entities.PlanDAO;
 
-public class Plan {
+public class Plan implements Runnable {
 
 	private PlanDAO planDAO = new PlanDAO();
 	private Report report = new Report();
@@ -215,6 +215,19 @@ public class Plan {
 		setStar();
 		setPlanets();
 		updateEmptyCellValue();
+	}
+
+	@Override
+	public void run() {
+		try {
+			insertPlan();
+			JOptionPane.showMessageDialog(null, "Relatório inserido com sucesso!",
+					"Sucesso",
+					JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Não foi possível salvar o plano!", "Erro", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 
 }

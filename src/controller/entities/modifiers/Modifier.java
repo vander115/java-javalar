@@ -10,10 +10,10 @@ abstract public class Modifier extends Element {
     protected int modifierValue;
     protected Position position;
 
-    public Modifier(Position position, int modifierValue, String filename) {
+    public Modifier(String name, String description, Position position, int modifierValue, String filename) {
+        super(name, new ImageIcon("src/view/assets/images/modifiers/" + filename), description);
         this.modifierValue = modifierValue;
         this.position = position;
-        this.icon = new ImageIcon("src/view/assets/images/modifiers/" + filename);
     }
 
     public Position getPosition() {

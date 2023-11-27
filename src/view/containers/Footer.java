@@ -46,6 +46,7 @@ public class Footer extends JPanel {
     planetsContent.setOpaque(false);
 
     for (Planet diedPlanet : plan.getDiedPlanets()) {
+      System.out.println(diedPlanet.getName() + " explodiu");
       FooterCell cell = new FooterCell(diedPlanet);
       cell.addActionListener(getActionListener(diedPlanet));
       planetsContent.add(cell);
@@ -60,6 +61,9 @@ public class Footer extends JPanel {
     this.removeAll();
     this.add(planetsContent, BorderLayout.EAST);
     this.add(label, BorderLayout.WEST);
+
+    revalidate();
+    repaint();
   }
 
   public ActionListener getActionListener(Planet diedPlanet) {

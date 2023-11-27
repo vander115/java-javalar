@@ -26,9 +26,8 @@ abstract public class Planet extends Element {
 	public Planet(String name, String slug, String description, PlanetIndex index, int initialVelocity,
 			double instantDuration,
 			String filename) {
-		this.name = name;
+		super(name, new ImageIcon("src/view/assets/images/planets/" + filename), description);
 		this.slug = slug;
-		this.description = description;
 		this.index = index;
 		this.velocity = initialVelocity;
 

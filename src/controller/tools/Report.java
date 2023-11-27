@@ -1,10 +1,12 @@
 package controller.tools;
 
+import javax.swing.JOptionPane;
+
 import controller.entities.Student;
 import model.entities.ReportDAO;
 import model.files.ReportFileManager;
 
-public class Report {
+public class Report implements Runnable {
   private ReportDAO reportDAO = new ReportDAO();
   private ReportFileManager fileManager = new ReportFileManager();
 
@@ -86,6 +88,17 @@ public class Report {
 
   public void saveFile() {
     fileManager.saveReportFile();
+  }
+
+  @Override
+  public void run() {
+    try {
+      registerReport();
+      JOptionPane.showMessageDialog(null, "Dados lidos com sucesso!", "Sucesso",
+          JOptionPane.INFORMATION_MESSAGE);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
 }

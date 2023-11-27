@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -83,6 +84,11 @@ public class DashboardWindow extends JFrame {
   }
 
   public void setFooter() {
+
+    if (plan.getDiedPlanets().isEmpty()) {
+      return;
+    }
+
     this.setSize(new Dimension(580, 700));
     content.remove(footer);
     footer.updateFooter();
@@ -174,14 +180,7 @@ public class DashboardWindow extends JFrame {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           if (!plan.isValuesEmpty()) {
-            try {
-              plan.insertPlan();
-              JOptionPane.showMessageDialog(null, "Relatório inserido com sucesso!",
-                  "Sucesso",
-                  JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
+            new Thread(plan).start();
           } else {
             JOptionPane.showMessageDialog(null, "Selecione um arquivo!", "Erro", JOptionPane.WARNING_MESSAGE);
           }
@@ -200,9 +199,7 @@ public class DashboardWindow extends JFrame {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           try {
-            plan.getReport().registerReport();
-            JOptionPane.showMessageDialog(null, "Dados lidos com sucesso!", "Sucesso",
-                JOptionPane.INFORMATION_MESSAGE);
+            new Thread(plan.getReport()).start();
           } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao ler dados!", "Erro", JOptionPane.WARNING_MESSAGE);
             e.printStackTrace();

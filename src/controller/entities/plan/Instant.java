@@ -36,7 +36,6 @@ public class Instant {
   }
 
   public void processInstants() {
-
     try {
       List<String> lines = fileManager.readFile();
       lines.remove(0);
@@ -49,7 +48,6 @@ public class Instant {
     } catch (IOException e) {
       System.out.println(e.getMessage());
     }
-
   }
 
   public int getAmountOfBugsToCreate() {

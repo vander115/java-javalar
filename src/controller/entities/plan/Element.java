@@ -10,6 +10,12 @@ abstract public class Element implements IGetElementType {
 	protected String description;
 	protected String name;
 
+	public Element(String name, ImageIcon icon, String description) {
+		this.name = name;
+		this.icon = icon;
+		this.description = description;
+	}
+
 	public abstract ElementType getElementType();
 
 	public ImageIcon getIcon() {
