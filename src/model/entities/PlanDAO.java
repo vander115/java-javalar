@@ -11,25 +11,26 @@ public class PlanDAO {
 
   public void insertPlan(Plan plan) {
 
+    StringBuilder bugString = new StringBuilder();
+    StringBuilder devString = new StringBuilder();
+    StringBuilder velocityString = new StringBuilder();
+    StringBuilder daysString = new StringBuilder();
+    StringBuilder yearsString = new StringBuilder();
+
+    StringBuilder bugValues = new StringBuilder();
+    StringBuilder devValues = new StringBuilder();
+    StringBuilder velocityValues = new StringBuilder();
+    StringBuilder daysValues = new StringBuilder();
+    StringBuilder yearsValues = new StringBuilder();
+
+    String bugsInQuadrantsString = "bug_q1, bug_q2, bug_q3, bug_q4";
+    String devsInQuadrantsString = "dev_q1, dev_q2, dev_q3, dev_q4";
+
+    StringBuilder bugsInQuadrantsValues = new StringBuilder();
+    StringBuilder devsInQuadrantsValues = new StringBuilder();
+
     try {
       Connection connection = new Connector().getConnection();
-      StringBuilder bugString = new StringBuilder();
-      StringBuilder devString = new StringBuilder();
-      StringBuilder velocityString = new StringBuilder();
-      StringBuilder daysString = new StringBuilder();
-      StringBuilder yearsString = new StringBuilder();
-
-      StringBuilder bugValues = new StringBuilder();
-      StringBuilder devValues = new StringBuilder();
-      StringBuilder velocityValues = new StringBuilder();
-      StringBuilder daysValues = new StringBuilder();
-      StringBuilder yearsValues = new StringBuilder();
-
-      String bugsInQuadrantsString = "bug_q1, bug_q2, bug_q3, bug_q4";
-      String devsInQuadrantsString = "dev_q1, dev_q2, dev_q3, dev_q4";
-
-      StringBuilder bugsInQuadrantsValues = new StringBuilder();
-      StringBuilder devsInQuadrantsValues = new StringBuilder();
 
       for (int i = 0; i < plan.getPlanets().size(); i++) {
 

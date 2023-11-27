@@ -7,8 +7,13 @@ import model.entities.ReportDAO;
 import model.files.ReportFileManager;
 
 public class Report implements Runnable {
-  private ReportDAO reportDAO = new ReportDAO();
-  private ReportFileManager fileManager = new ReportFileManager();
+  private ReportDAO reportDAO;
+  private ReportFileManager fileManager;
+
+  public Report() {
+    reportDAO = new ReportDAO();
+    fileManager = new ReportFileManager();
+  }
 
   public Student getStudentProcessedMostInstants() {
     return reportDAO.getStudentProcessedMostInstants();

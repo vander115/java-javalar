@@ -8,16 +8,25 @@ import model.files.InstantFileManager;
 
 public class Instant {
 
-  private InstantFileManager fileManager = new InstantFileManager();
+  private InstantFileManager fileManager;
 
-  private ArrayList<String[]> listOfInstants = new ArrayList<>();
+  private ArrayList<String[]> listOfInstants;
 
-  private int currentInstant = 0;
+  private int currentInstant;
 
-  private int amountOfBugsToCreate = 0;
-  private int amountOfDevelopersToCreate = 0;
+  private int amountOfBugsToCreate;
+  private int amountOfDevelopersToCreate;
 
-  private int[] amountOfInstants = new int[7];
+  private int[] amountOfInstants;
+
+  public Instant() {
+    fileManager = new InstantFileManager();
+    listOfInstants = new ArrayList<>();
+    currentInstant = 0;
+    amountOfBugsToCreate = 0;
+    amountOfDevelopersToCreate = 0;
+    amountOfInstants = new int[7];
+  }
 
   public void convertInstants() {
     currentInstant++;
