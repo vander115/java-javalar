@@ -59,6 +59,10 @@ public class Report implements Runnable {
 		return reportDAO.getPlanetThatHasMoreLife();
 	}
 
+	public boolean isFileExists() {
+		return fileManager.isFileExists();
+	}
+
 	public void registerReport() {
 		StringBuilder content = new StringBuilder();
 

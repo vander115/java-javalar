@@ -36,7 +36,6 @@ public class Footer extends JPanel {
 
 	public void updateFooter() {
 		if (plan.getDiedPlanets().isEmpty()) {
-			System.out.println("Nenhum planeta explodiu");
 			return;
 		}
 
@@ -48,7 +47,6 @@ public class Footer extends JPanel {
 		planetsContent.setOpaque(false);
 
 		for (Planet diedPlanet : plan.getDiedPlanets()) {
-			System.out.println(diedPlanet.getName() + " explodiu");
 			FooterCell cell = new FooterCell(diedPlanet);
 			cell.addActionListener(getActionListener(diedPlanet));
 			planetsContent.add(cell);

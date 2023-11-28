@@ -12,15 +12,10 @@ public class Connector {
 	private String database;
 
 	public Connector() {
-//		this.hostName = "da_java.mysql.dbaas.com.br";
-//		this.database = "da_java";
-//		this.userName = "da_java";
-//		this.password = "Tecnicas*2023@";
-
-		this.hostName = "localhost";
-		this.database = "db_javalar";
-		this.userName = "root";
-		this.password = "";
+		this.hostName = "da_java.mysql.dbaas.com.br";
+		this.database = "da_java";
+		this.userName = "da_java";
+		this.password = "Tecnicas*2023@";
 	}
 
 	public Connection getConnection() {

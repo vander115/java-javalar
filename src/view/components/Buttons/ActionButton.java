@@ -16,6 +16,8 @@ import view.style.Paths;
 public class ActionButton extends JButton implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
+	private ImageIcon defaultIcon;
+	private ImageIcon loadingIcon = new ImageIcon(Paths.ICONS_PATH + "loading.gif");
 
 	public ActionButton(String filename) {
 		super();
@@ -26,8 +28,17 @@ public class ActionButton extends JButton implements MouseListener {
 		addMouseListener(this);
 
 		setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
-		setIcon(new ImageIcon(Paths.ICONS_PATH + filename));
+		defaultIcon = new ImageIcon(Paths.ICONS_PATH + filename);
+		setIcon(defaultIcon);
 
+	}
+
+	public void setLoading(boolean state) {
+		if (state) {
+			setIcon(loadingIcon);
+		} else {
+			setIcon(defaultIcon);
+		}
 	}
 
 	@Override

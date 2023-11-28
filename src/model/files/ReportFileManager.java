@@ -12,10 +12,10 @@ import javax.swing.JFileChooser;
 public class ReportFileManager {
 
 	File file;
+	String directoryPath = "src/output/";
+	String fileName = "Relatório Javalar.txt";
 
 	public void createReportFile(String content) {
-		String directoryPath = "output/";
-		String fileName = "Relatório Javalar.txt";
 
 		file = new File(directoryPath, fileName);
 
@@ -30,7 +30,6 @@ public class ReportFileManager {
 
 			writer.close();
 
-			System.out.println("Arquivo criado com sucesso!" + file.getAbsolutePath());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -51,12 +50,15 @@ public class ReportFileManager {
 
 			try {
 				Files.move(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-				System.out.println("Arquivo salvo com sucesso!" + destinationFile.getAbsolutePath());
+				file = null;
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
 
 		}
+	}
+
+	public boolean isFileExists() {
+		return file != null && file.exists();
 	}
 }

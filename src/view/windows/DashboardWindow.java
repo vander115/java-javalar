@@ -118,6 +118,7 @@ public class DashboardWindow extends JFrame {
 			this.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+
 					if (!plan.isValuesEmpty()) {
 						if (plan.getInstant().getCurrentInstant() < plan.getInstant().getListOfInstants().size()) {
 							plan.simulate();
@@ -202,6 +203,7 @@ public class DashboardWindow extends JFrame {
 	private class ClassroomButton extends ActionButton {
 
 		private static final long serialVersionUID = 1L;
+		ImageIcon loading = new ImageIcon();
 
 		public ClassroomButton() {
 			super("classroom.png");
@@ -212,7 +214,17 @@ public class DashboardWindow extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent actionEvent) {
 					try {
-						new Thread(plan.getReport()).start();
+						setLoading(true);
+						Thread classroomThread = new Thread(new Runnable() {
+
+							@Override
+							public void run() {
+								plan.getReport().registerReport();
+								setLoading(false);
+							}
+
+						});
+						classroomThread.start();
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, "Erro ao ler dados!", "Erro", JOptionPane.WARNING_MESSAGE);
 						e.printStackTrace();
@@ -233,6 +245,11 @@ public class DashboardWindow extends JFrame {
 			this.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent actionEvent) {
+					if (!plan.getReport().isFileExists()) {
+						JOptionPane.showMessageDialog(null, "Não há arquivo para ser salvo!", "Erro",
+								JOptionPane.WARNING_MESSAGE);
+						return;
+					}
 					try {
 						plan.getReport().saveFile();
 						JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso!", "Sucesso",
