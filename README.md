@@ -45,8 +45,11 @@ $ git clone https://github.com/vander115/java-javalar.git && cd java-javalar
 $ java -jar javalar.jar
 ```
 - If everything goes perfectly, you will see something similar to this screen:
-![image](https://github.com/vander115/java-javalar/assets/101757815/06e2982e-4191-48e1-bcbb-78176557318d)
+![image](https://github.com/vander115/java-javalar/assets/101757815/448518f6-a16a-4a18-a642-c66a50afde95)
 
+## ℹ How to use Javalar?
+
+- Java is the star of the Javalar System, but what energizes and moves the planet-languages are the moments. In this second version, the instants are read from CSV files which can be accessed [here](https://github.com/vander115/java-javalar/tree/87cb410b8d094e023ebda40ff3009c0ff3ced212/instants).
 
 **Ready! Now just enjoy and test JavaLar’s features!**
 
