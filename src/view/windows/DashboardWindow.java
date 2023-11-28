@@ -203,7 +203,6 @@ public class DashboardWindow extends JFrame {
 	private class ClassroomButton extends ActionButton {
 
 		private static final long serialVersionUID = 1L;
-		ImageIcon loading = new ImageIcon();
 
 		public ClassroomButton() {
 			super("classroom.png");
@@ -221,11 +220,14 @@ public class DashboardWindow extends JFrame {
 							public void run() {
 								plan.getReport().registerReport();
 								setLoading(false);
+								JOptionPane.showMessageDialog(null, "Dados lidos com sucesso!", "Sucesso",
+										JOptionPane.INFORMATION_MESSAGE);
 							}
 
 						});
 						classroomThread.start();
 					} catch (Exception e) {
+						setLoading(false);
 						JOptionPane.showMessageDialog(null, "Erro ao ler dados!", "Erro", JOptionPane.WARNING_MESSAGE);
 						e.printStackTrace();
 					}
